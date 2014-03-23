@@ -1,13 +1,21 @@
 #!/usr/bin/env python
-
+'''
+CS555 Project
+Zero-Knowledge Subgraph Isomorphism
+Members:
+    Craig West
+    Max DeWees
+    David Hersh
+    Michael Kouremetis
+'''
 from graph_tool.all import *
 
 g = Graph(directed=False)
 
 
-def create_graph():
+def create_graph(filename):
     #open the file to read
-    with open('matrix.txt', 'r') as fr:
+    with open(filename, 'r') as fr:
         #See how many nodes we need
         size =  len(fr.readline().split())
         #generate the nodes
@@ -27,5 +35,5 @@ def create_graph():
 
 
 if __name__ == '__main__':
-    create_graph()
+    create_graph('g1.txt')
     graph_draw(g, vertex_text=g.vertex_index, vertex_font_size=18, output_size=(500, 500), output="nodes.png")
