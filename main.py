@@ -13,6 +13,18 @@ from graph_tool.all import *
 g1 = Graph(directed=False)
 g2 = Graph(directed=False)
 
+#Create a matrix file from a graph
+def create_matrix(filename, graph):
+    with open(filename, 'w') as fw:
+        for i in range(graph.num_vertices()):
+            for j in range(graph.num_vertices()):
+                if graph.edge(i, j):
+                    fw.write('1 ')
+                else:
+                    fw.write('0 ')
+            fw.write('\n')
+
+#Create a graph from a matrix file
 def create_graph(filename, graph):
     #open the file to read
     with open(filename, 'r') as fr:
@@ -32,6 +44,7 @@ def create_graph(filename, graph):
                    if item == str(1) and not graph.edge(pos, line):
                        graph.add_edge(line, pos)
 
+#Create an image of a graph
 def draw_graph(graph):
     graph_draw(graph, vertex_text=graph.vertex_index, vertex_font_size=18,\
             output_size=(500, 500), output="nodes.png")
