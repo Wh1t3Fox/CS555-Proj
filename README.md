@@ -64,10 +64,10 @@ the interactive situation where Victor randomly chose the n challenges.
 
 ####Simplified Version, hopefully it is correct.
 We are given two graphs G1 and G2.
-Randomly permute G2 to get a new graph which we save as Q. The permutation is saved as α.
-Obtain a subgraph of Q using α and save it as Q'.
-the isomorphism between G1 and Q' using α is stored as π
-Commit to Q and send to Victor
-Victor either asks for:
-    α and the permutation Q
-    π and the subgraph Q'
+- Randomly permute G2 to get a new graph which we save as Q. The permutation is saved as α.
+- Obtain a subgraph of Q using α and save it as Q'.
+- the isomorphism between G1 and Q' using α is stored as π
+- Commit to Q and send to Victor
+- Victor either asks for:
+    1. α and the permutation Q
+    2. π and the subgraph Q'
