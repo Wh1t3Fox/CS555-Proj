@@ -57,3 +57,17 @@ published information about the n rounds can obtain the n-bit string that determ
 n challenges (just like Alice did) and then check that Alice did not cheat (i.e., publish
 responses according to these challenges). Alice cannot control that n-bit string, which mimics
 the interactive situation where Victor randomly chose the n challenges.
+
+
+
+
+
+####Simplified Version, hopefully it is correct.
+We are given two graphs G1 and G2.
+Randomly permute G2 to get a new graph which we save as Q. The permutation is saved as α.
+Obtain a subgraph of Q using α and save it as Q'.
+the isomorphism between G1 and Q' using α is stored as π
+Commit to Q and send to Victor
+Victor either asks for:
+    α and the permutation Q
+    π and the subgraph Q'
