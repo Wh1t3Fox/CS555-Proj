@@ -45,19 +45,6 @@ of Victor’s challenge could simplify Victor’s problem to one of graph isomor
 ﬁnding α). The protocol would still be secure (because graph isomorphism is itself a diﬃcult
 problem), but it could no longer be called zero-knowledge.
 
-In a noninteractive version of the protocol, Peggy creates data for n rounds (i.e., the
-Q, . . .etc).  For each of these, she then produces commitments to the two possible responses
-she might have been asked to produce for Victor in the above interactive version. She concatenates
-these 2n commitments, and applies to their concatenation a cryptographic hash
-function: The ﬁrst n bits of the resulting bit string are interpreted as challenges by Victor
-in the corresponding round: An ith bit that is 0 (resp., 1) is a challenge of the ﬁrst (resp.,
-second) kind in the ith round. Alice’s response to the implied challenge for the ith round
-is published together with the other information about that ith round.  Anyone reading the
-published information about the n rounds can obtain the n-bit string that determines the
-n challenges (just like Alice did) and then check that Alice did not cheat (i.e., publish
-responses according to these challenges). Alice cannot control that n-bit string, which mimics
-the interactive situation where Victor randomly chose the n challenges.
-
 
 
 
