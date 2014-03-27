@@ -12,12 +12,6 @@ class Matrix:
             for line in fr:
                 self.matrix.append([i for i in line.split()])
 
-    def set_item(self, row, col, value):
-        self.matrix[row][col] = str(value)
-
-    def get_row(self, row):
-        return ' '.join(self.matrix[row])
-
     def get_col(self, col):
         return '\n'.join([i[col] for i in self.matrix])
 
@@ -26,3 +20,6 @@ class Matrix:
         
     def __getitem__(self, row):
         return self.matrix[row]
+    
+    def __setitem__(self, row, value):
+        self.matrix[row] = value
