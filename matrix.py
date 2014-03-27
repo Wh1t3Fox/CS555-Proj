@@ -13,16 +13,16 @@ class Matrix:
                 self.matrix.append([i for i in line.split()])
 
     def set_item(self, row, col, value):
-        self.matrix[row-1][col-1] = str(value)
-
-    def get_item(self, row, col):
-        return self.matrix[row-1][col-1]
+        self.matrix[row][col] = str(value)
 
     def get_row(self, row):
-        return ' '.join(self.matrix[row-1])
+        return ' '.join(self.matrix[row])
 
     def get_col(self, col):
-        return '\n'.join([i[col-1] for i in self.matrix])
+        return '\n'.join([i[col] for i in self.matrix])
 
     def __repr__(self):
         return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
+        
+    def __getitem__(self, row):
+        return self.matrix[row]
