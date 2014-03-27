@@ -15,14 +15,18 @@ class Matrix:
     def get_col(self, col):
         return '\n'.join([i[col] for i in self.matrix])
 
+    def set_col(self, col, values):
+        for v,m in zip(values, self.matrix):
+            m[col] = v
+
     def __repr__(self):
         return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
         
     def __getitem__(self, row):
         return self.matrix[row]
     
-    def __setitem__(self, row, value):
-        self.matrix[row] = value
+    def __setitem__(self, row, values):
+        self.matrix[row] = values
         
     def __len__(self):
         return len(list(self.matrix))
