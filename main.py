@@ -27,7 +27,7 @@ def create_matrix(filename, graph):
 
 #Create a graph from a matrix
 def create_graph(matrix, graph):
-    graph.add_vertex(len(list(matrix)))
+    graph.add_vertex(len(matrix))
     for line, row in enumerate(matrix):
         for pos, item in enumerate(row):
             if item == str(1) and not graph.edge(pos, line):

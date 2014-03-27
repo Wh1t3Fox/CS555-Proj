@@ -23,3 +23,6 @@ class Matrix:
     
     def __setitem__(self, row, value):
         self.matrix[row] = value
+        
+    def __len__(self):
+        return len(list(self.matrix))
