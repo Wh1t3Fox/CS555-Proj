@@ -18,6 +18,15 @@ class Matrix:
     def set_col(self, col, values):
         for v,m in zip(values, self.matrix):
             m[col] = v
+            
+    def rotate_cw(self):
+        self.matrix = [self.get_col(i)[::-1] for i in range(len(self.matrix))]
+        
+    def rotate_ccw(self):
+        self.matrix = [self.get_col(i) for i in range(len(self.matrix)-1, -1, -1)]
+        
+    def rotate_180(self):
+        self.matrix = [i[::-1] for i in self.matrix[::-1]]
 
     def __repr__(self):
         return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
