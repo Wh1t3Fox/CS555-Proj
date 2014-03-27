@@ -13,7 +13,7 @@ class Matrix:
                 self.matrix.append([i for i in line.split()])
 
     def get_col(self, col):
-        return '\n'.join([i[col] for i in self.matrix])
+        return [i[col] for i in self.matrix]
 
     def set_col(self, col, values):
         for v,m in zip(values, self.matrix):
