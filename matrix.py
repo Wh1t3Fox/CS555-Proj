@@ -18,5 +18,11 @@ class Matrix:
     def get_item(self, row, col):
         return self.matrix[row-1][col-1]
 
+    def get_row(self, row):
+        return ' '.join(self.matrix[row-1])
+
+    def get_col(self, col):
+        return '\n'.join([i[col-1] for i in self.matrix])
+
     def __repr__(self):
         return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
