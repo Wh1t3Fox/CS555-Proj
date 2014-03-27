@@ -34,11 +34,14 @@ def create_graph(matrix, graph):
                 graph.add_edge(line, pos)
 
 #Create an image of a graph
-def draw_graph(graph):
+def draw_graph(filename, graph):
     graph_draw(graph, vertex_text=graph.vertex_index, vertex_font_size=18,\
-            output_size=(500, 500), output="nodes.png")
+            output_size=(500, 500), output=filename)
 
 if __name__ == '__main__':
     g1_matrix = Matrix('g1.txt')
+    g2_matrix = Matrix('g2.txt')
     create_graph(g1_matrix, g1)
-    draw_graph(g1)
+    create_graph(g2_matrix, g2)
+    draw_graph('g1.png', g1)
+    draw_graph('g2.png', g2)
