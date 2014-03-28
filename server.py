@@ -14,12 +14,10 @@ def handler(client, addr):
             
             if randint(1,2) == 1:
                 #alpha and the permutation Q
-                pass
+                msg = 'Please send alpha and Graph Q'
             else:
                 #pi and the subgraph Q'
-                pass
-        
-            msg = 'echoed:...{}'.format(data)
+                msg = 'Please send pi and the subgraph'
             client.send(msg)
         except:
             client.close()
