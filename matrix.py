@@ -43,5 +43,3 @@ class Matrix:
     def rotate_180(self):
         self.matrix = [i[::-1] for i in self.matrix[::-1]]
 
-    def permute(self):
-        pass
