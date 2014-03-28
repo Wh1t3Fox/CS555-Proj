@@ -6,7 +6,22 @@ class Matrix:
         self.create_from_file(filename)
 
         #self.matrix = [['0' for i in xrange(cols)] for j in xrange(rows)]
+        
+    def __getitem__(self, row):
+        return self.matrix[row]
+    
+    def __setitem__(self, row, values):
+        self.matrix[row] = values
+        
+    def __len__(self):
+        return len(list(self.matrix))
+        
+    def __deepcopy__(self):
+        return self.matrix
 
+    def __repr__(self):
+        return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
+              
     def create_from_file(self, filename):
         with open(filename, 'r') as fr:
             for line in fr:
@@ -28,14 +43,5 @@ class Matrix:
     def rotate_180(self):
         self.matrix = [i[::-1] for i in self.matrix[::-1]]
 
-    def __repr__(self):
-        return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
-        
-    def __getitem__(self, row):
-        return self.matrix[row]
-    
-    def __setitem__(self, row, values):
-        self.matrix[row] = values
-        
-    def __len__(self):
-        return len(list(self.matrix))
+    def permute(self):
+        pass
