@@ -46,6 +46,22 @@ if __name__ == '__main__':
     create_graph(g1_matrix, g1)
     create_graph(g2_matrix, g2)
     
+    ####Testing to prove the graphs will work for the proj#####    
+    vm, em = subgraph_isomorphism(g1, g2)
+    print len(vm)
+    for i in range(len(vm)):
+        g2.set_vertex_filter(None)
+        g2.set_edge_filter(None)
+        vmask, emask = mark_subgraph(g2, g1, vm[i], em[i]) 
+        g2.set_vertex_filter(vmask)
+        g2.set_edge_filter(emask)
+        assert(isomorphism(g2,g1))
+    ewidth = g2.copy_property(emask, value_type="double")
+    ewidth.a += 0.5
+    ewidth.a *= 2 
+    graph_draw(g2, vertex_fill_color=vmask, edge_color=emask, edge_pen_width=ewidth, output_size=(500,500), output = "g2_sub.png")
+    ####END######
+    
     q_matrix = Matrix('g2.txt')
     create_graph(q_matrix, q)
     random_rewire(q, model='uncorrelated')
