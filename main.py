@@ -10,6 +10,7 @@ Members:
 '''
 from graph_tool.all import *
 from matrix import Matrix
+from copy import deepcopy
 
 g1 = Graph()
 g2 = Graph()
@@ -46,7 +47,7 @@ if __name__ == '__main__':
     create_graph(g1_matrix, g1)
     create_graph(g2_matrix, g2)
     
-    q_matrix = Matrix('g2.txt')
+    q_matrix = deepcopy(g2_matrix)
     create_graph(q_matrix, q)
     random_rewire(q, model='uncorrelated')
     

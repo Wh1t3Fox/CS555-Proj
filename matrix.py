@@ -15,9 +15,6 @@ class Matrix:
         
     def __len__(self):
         return len(list(self.matrix))
-        
-    def __deepcopy__(self):
-        return self.matrix
 
     def __repr__(self):
         return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
