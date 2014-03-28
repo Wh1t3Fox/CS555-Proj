@@ -11,10 +11,10 @@ Members:
 from graph_tool.all import *
 from matrix import Matrix
 
-g1 = Graph(directed=False)
-g2 = Graph(directed=False)
-q = Graph(directed=False)
-q_sub = Graph(directed=False)
+g1 = Graph()
+g2 = Graph()
+q = Graph()
+q_sub = Graph()
 
 #Create a matrix file from a graph
 def create_matrix(filename, graph):
