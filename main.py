@@ -13,6 +13,8 @@ from matrix import Matrix
 
 g1 = Graph(directed=False)
 g2 = Graph(directed=False)
+q = Graph(directed=False)
+q_sub = Graph(directed=False)
 
 #Create a matrix file from a graph
 def create_matrix(filename, graph):
@@ -43,5 +45,12 @@ if __name__ == '__main__':
     g2_matrix = Matrix('g2.txt')
     create_graph(g1_matrix, g1)
     create_graph(g2_matrix, g2)
+    
+    q_matrix = Matrix('g2.txt')
+    create_graph(q_matrix, q)
+    random_rewire(q, model='uncorrelated')
+    
+    
     draw_graph('g1.png', g1)
     draw_graph('g2.png', g2)
+    draw_graph('q.png', q)
