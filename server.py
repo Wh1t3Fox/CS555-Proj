@@ -9,8 +9,6 @@ def handler(client, addr):
     while True:
         try:
             data = client.recv(1024)
-            if data.find('QUIT') != -1:
-                break
             
             if randint(1,2) == 1:
                 #alpha and the permutation Q
