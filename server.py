@@ -6,6 +6,9 @@ from matrix import Matrix
 from random import randint
 import thread
 
+g1 = Matrix('g1.txt')
+g2 = Matrix('g2.txt')
+
 def handler(client, addr):
     while True:
         try:
