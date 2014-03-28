@@ -15,12 +15,12 @@ while True:
     client, addr = s.accept()
     print('Connected to {}'.format(addr))
     client.send('Welcome!')
-    
+
     if randint(1,2) == 2:
-        #α and the permutation Q
+        #alpha and the permutation Q
         pass
     else:
-        #π and the subgraph Q'
+        #pi and the subgraph Q'
         pass
-    
+
     client.close()
