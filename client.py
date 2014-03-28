@@ -29,6 +29,8 @@ if __name__ == '__main__':
             data = s.recv(1024)
             print data    
             
+            raw_input("Press enter to continue...")
+            
             if data.find('alpha and Graph Q') != -1:
                 info = [1, 'a', 'q'] 
                 
