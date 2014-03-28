@@ -10,12 +10,9 @@ Members:
 '''
 from graph_tool.all import *
 from matrix import Matrix
-from copy import deepcopy
 
 g1 = Graph()
 g2 = Graph()
-q = Graph()
-q_sub = Graph()
 
 #Create a matrix file from a graph
 def create_matrix(filename, graph):
@@ -47,8 +44,7 @@ if __name__ == '__main__':
     create_graph(g1_matrix, g1)
     create_graph(g2_matrix, g2)
     
-    q_matrix = deepcopy(g2_matrix)
-    create_graph(q_matrix, q)
+    q = Graph(g2)
     random_rewire(q, model='uncorrelated')
     
     ####Testing to prove the graphs will work for the proj#####    
