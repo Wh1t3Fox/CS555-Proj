@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import socket
+import pickle
 from matrix import Matrix
 from random import randint
 import thread
@@ -9,7 +10,7 @@ def handler(client, addr):
     while True:
         try:
             data = client.recv(1024)
-            
+            matrix = pickle.loads(data)
             if randint(1,2) == 1:
                 #alpha and the permutation Q
                 msg = 'Please send alpha and Graph Q'
