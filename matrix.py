@@ -41,3 +41,8 @@ class Matrix:
     def rotate_180(self):
         self.matrix = [i[::-1] for i in self.matrix[::-1]]
 
+    def permute(self, matrix):
+        order = [pos for row in matrix for pos,item in enumerate(row) if item == str(1)]
+        tmp = self.matrix
+        self.matrix = [tmp[i] for i in order]
+        
