@@ -46,3 +46,15 @@ class Matrix:
         tmp = self.matrix
         self.matrix = [tmp[i] for i in order]
         
+    def get_permutation(self, graph, filename):
+        order = [pos for i in self.matrix for pos,j in enumerate(graph) if i == j]
+        with open(filename, 'w') as fw:
+        for i in range(size):
+            for j in range(size):
+                if order[i] == j:
+                    fw.write('1 ')
+                else:
+                    fw.write('0 ')
+            fw.write('\n')
+
+
