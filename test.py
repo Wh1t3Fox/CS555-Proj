@@ -10,9 +10,26 @@ Members:
 '''
 from graph_tool.all import *
 from matrix import Matrix
+from random import randint
 
 g1 = Graph()
 g2 = Graph()
+
+#Create a permutation matrix file
+def create_permutation(filename, size):
+    s = set()
+    tmp = []
+    while len(set(tmp)) != size:
+        tmp.append(randint(0, size-1))
+    order = [x for x in tmp if x not in s and not s.add(x)]
+    with open(filename, 'w') as fw:
+        for  i in range(size):
+            for j in range(size):
+                if order[i] == j:
+                    fw.write('1 ')
+                else:
+                    fw.write('0 ')
+            fw.write('\n')
 
 #Create a matrix file from a graph
 def create_matrix(filename, graph):
