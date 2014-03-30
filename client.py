@@ -34,18 +34,21 @@ if __name__ == '__main__':
 
     g1 = Matrix('g1.txt')   
     g2 = Matrix('g2.txt')
-    create_permutation('alpha.txt', len(q2))
+    create_permutation('alpha.txt', len(g2))
     alpha = Matrix('alpha.txt')
     q = deepcopy(g2)
     q.permute(alpha)
     #Need to commit to Q here and create subgraph q'
     
     
-    s.connect((host,port))
+    
 
     #Send the server committed Q
     q_data = ['q', q]
-    txt = pickle.dumps(info)
+    txt = pickle.dumps(q_data)
+    
+    s.connect((host,port))
+    
     s.send(txt)
     
     while True:
@@ -59,13 +62,14 @@ if __name__ == '__main__':
             raw_input("Press enter to continue...")
             
             if data.find('alpha and Graph Q') != -1:
-                info = [1, alpha, q] 
+                info = [1, alpha, q]
+                msg = pickle.dumps(info)            
+                s.send(msg)
                 
             elif data.find('pi and the subgraph') != -1:
                 info = [2, 'pi', 'subgraph']
-                
-            msg = pickle.dumps(info)            
-            s.send(msg)
+                msg = pickle.dumps(info)            
+                s.send(msg)
             
             num_rounds += 1
         except:

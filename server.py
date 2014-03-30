@@ -4,6 +4,7 @@ import socket
 import pickle
 from matrix import Matrix
 from random import randint
+from copy import deepcopy
 import thread
 
 g1 = Matrix('g1.txt')
@@ -28,7 +29,11 @@ def handler(client, addr):
                 q = lst[1]
                 
             elif lst[0] == 1:
-                print lst
+                #print lst
+                m = deepcopy(g2)
+                m.permute(lst[1])
+                if not m.equals(q):
+                    msg = 'Invalid Login Attempt!'
              
             elif lst[0] == 2:
                 print lst
@@ -40,6 +45,9 @@ def handler(client, addr):
                 #pi and the subgraph Q'
                 msg = 'Please send pi and the subgraph'
             client.send(msg)
+            if msg == 'Invalid Login Attempt!':
+                client.close()
+                break
         except:
             client.close()
 
