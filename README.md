@@ -58,7 +58,16 @@ We are given two graphs G1 and G2.
 - Victor either asks for:
     1. α and the permutation Q
     2. π and the subgraph Q'
-    
+
+
+####To-Do List
+- Generate committed Q 
+- Generate subgraph Q'
+- Obtain pi from G1 and Q' (trivial)
+- Check for validity between committed Q and transferred Q on server
+- Client send data for part 2
+- Server verify information of part 2
+
 ######Resources
 - [Explanation of Permutation Matrix](http://www.witno.com/discrete/chap5.pdf)
 - [Isomorphic Graph Examples](http://www.cs.laurentian.ca/jdompierre/html/MATH2056E_W2011/cours/s9.3_graph_isomorphism_BW.pdf)
