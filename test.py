@@ -47,8 +47,39 @@ def draw_graph(filename, graph):
     graph_draw(graph, vertex_text=graph.vertex_index, vertex_font_size=18,\
             output_size=(500, 500), output=filename)
 
+
+#DFS on an adjacency matrix
+def dfs(matrix, start_node):
+    graph = {}
+    stack = []
+    visited = set()
+
+    for line,row in enumerate(matrix):
+        for col,value in enumerate(row):
+            try:
+                graph[line]
+                if value == '1':
+                    graph[line].append(col)                
+            except:
+                graph[line] = []
+
+    visited.add(start_node)
+    stack.append(start_node)
+    while len(stack) > 0:
+        current = stack.pop()
+        print current,
+        for c_node in graph[current]:
+            if c_node not in visited:
+                stack.append(c_node)
+                visited.add(c_node)
+
+
+
+
 if __name__ == '__main__':
     g1_matrix = Matrix('g1.txt')
+    dfs(g1_matrix, 0)
+    """
     g2_matrix = Matrix('g2.txt')
     create_graph(g1_matrix, g1)
     create_graph(g2_matrix, g2)
@@ -78,3 +109,4 @@ if __name__ == '__main__':
     draw_graph('g1.png', g1)
     draw_graph('g2.png', g2)
     draw_graph('q.png', q)
+    """

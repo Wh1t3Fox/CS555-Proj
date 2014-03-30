@@ -36,6 +36,32 @@ def create_permutation(filename, size):
                     fw.write('0 ')
             fw.write('\n')
 
+#DFS on an adjacency matrix
+def dfs(matrix, start_node):
+    graph = {}
+    stack = []
+    visited = set()
+
+    for line,row in enumerate(matrix):
+        for col,value in enumerate(row):
+            try:
+                graph[line]
+                if value == '1':
+                    graph[line].append(col)                
+            except:
+                graph[line] = []
+
+    visited.add(start_node)
+    stack.append(start_node)
+    while len(stack) > 0:
+        current = stack.pop()
+        print current,
+        for c_node in graph[current]:
+            if c_node not in visited:
+                stack.append(c_node)
+                visited.add(c_node)
+
+
 
 if __name__ == '__main__':
     if sys.version_info.major != 2:
