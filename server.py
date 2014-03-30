@@ -14,7 +14,7 @@ import pickle
 from matrix import Matrix
 from random import randint
 from copy import deepcopy
-import thread
+import threading
 
 g1 = Matrix('g1.txt')
 g2 = Matrix('g2.txt')
@@ -24,7 +24,7 @@ s = socket.socket()
 host = '127.0.0.1'
 port = 44444
 
-def handler(client, addr):
+def handler(client):
     num_rounds = 0
     while True:
         try:
@@ -84,7 +84,7 @@ if __name__ == '__main__':
             client, addr = s.accept()
             print('Connected to {}'.format(addr))
             client.send('Please Login!')
-            t = thread.start_new_thread(handler, (client, addr))
+            threading.Thread(target=handler, args=[client]).start()
         except:
             break
 
