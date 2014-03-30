@@ -73,5 +73,5 @@ We are given two graphs G1 and G2.
 ######Resources
 - [Isomorphic Graph Examples](http://www.cs.laurentian.ca/jdompierre/html/MATH2056E_W2011/cours/s9.3_graph_isomorphism_BW.pdf)
 - [Ullmann's Algorithm PPT](http://oldwww.prip.tuwien.ac.at/teaching/ss/strupr/vogl.pdf)
-- [Stackoverflow Algorithm](http://stackoverflow.com/questions/13537716/how-to-partially-compare-two-graphs)
+- [Ullmann Algorithm](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.870&rep=rep1&type=pdf)
 
