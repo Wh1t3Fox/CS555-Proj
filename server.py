@@ -29,15 +29,23 @@ def handler(client, addr):
                 committed_q = lst[1]
                 
             elif lst[0] == 1:
-                #print lst
+                #insert checking committed q here
+                alpha, q = lst[1], lst[2]
                 m = deepcopy(g2)
-                m.permute(lst[1])
-                if not m.equals(lst[2]):
+                m.permute(alpha)
+                if not m.equals(q):
                     client.send("INVALID LOGIN ATTEMPT")
                     break
              
             elif lst[0] == 2:
                 print lst
+                #insert checking committed q here
+                #pi, subgraph = lst[1], lst[2]
+                #m = deepcopy(g1)
+                #m.permute(pi)
+                #if not m.equals(subgraph):
+                #   client.send("INVALID LOGIN ATTEMPT")
+                #   break
                 
             if randint(1,2) == 1:
                 #alpha and the permutation Q
