@@ -1,7 +1,9 @@
 Zero-Knowledge Subgraph Isomorphism
 ===================================
 <br/>
-
+###Note:
+So far we do not need the graphing tool module
+<br />
 ##Problem
  Given a graph G = (V, E), a graph G′ = (V′, E′) is said to be a subgraph of G if and only if V′ is a subset of V , E′ is a subset of E, and for every edge (i, j) in E′ both i and j are in V′. The subgraph isomorphism problem is: “Given two graphs G1 and G2, ﬁnd an isomorphism between G1 and a subgraph of G2 if such an isomorphism exists”. Subgraph isomorphism seems to be more diﬃcult than graph isomorphism because it involves ﬁguring out which subgraph of G2, as well as an isomorphism (in fact subgraph isomorphism is NP-complete, whereas graph isomorphism is not known to be NP-complete although there is no known polynomial time algorithm for it). Design a zero-knowledge interactive protocol for subgraph isomorphism. That is, assume that both Peggy and Victor know G1 and G2, but Peggy also knows a subgraph G′ of G2 and an isomorphism between G′ and G1. Your protocol must convince Victor of Peggy’s knowledge without making it any easier for Victor to ﬁnd either G′ or its isomorphism with G1. Also give a noninteractive version of your protocol.
  
