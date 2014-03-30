@@ -8,7 +8,6 @@ Members:
     David Hersh
     Michael Kouremetis
 '''
-
 import socket
 import pickle
 from matrix import Matrix
@@ -20,7 +19,7 @@ g1 = Matrix('g1.txt')
 g2 = Matrix('g2.txt')
 committed_q = None
 
-s = socket.socket()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
 
@@ -84,7 +83,8 @@ if __name__ == '__main__':
             client, addr = s.accept()
             print('Connected to {}'.format(addr))
             client.send('Please Login!')
-            threading.Thread(target=handler, args=[client]).start()
-        except:
+            t = threading.Thread(target=handler, args=[client]).start()
+        except Exception as e:
+            t.close()
             break
 
