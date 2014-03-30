@@ -99,4 +99,12 @@ class Matrix:
                         fw.write('0 ')
                 fw.write('\n')
 
-
+    """
+    Check that the current matrix is equal to
+    a given one.
+    """
+    def equals(self, matrix):
+        for i in range(len(self.matrix)):
+            if self.matrix[i] != matrix[i]:
+                return False
+        return True
