@@ -32,8 +32,10 @@ def handler(client, addr):
                 #print lst
                 m = deepcopy(g2)
                 m.permute(lst[1])
-                if not m.equals(q):
-                    msg = 'Invalid Login Attempt!'
+                valid_data = m.equals(q)
+                if not valid_data:
+                    client.send("INVALID LOGIN ATTEMPT")
+                    break
              
             elif lst[0] == 2:
                 print lst
@@ -44,10 +46,8 @@ def handler(client, addr):
             else:
                 #pi and the subgraph Q'
                 msg = 'Please send pi and the subgraph'
+                
             client.send(msg)
-            if msg == 'Invalid Login Attempt!':
-                client.close()
-                break
         except:
             client.close()
 

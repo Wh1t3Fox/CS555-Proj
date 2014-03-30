@@ -57,7 +57,9 @@ if __name__ == '__main__':
                 break
                 
             data = s.recv(1024)
-            print data    
+            print data
+            if data.find('INVALID LOGIN ATTEMPT') != -1:
+                break
             
             raw_input("Press enter to continue...")
             
