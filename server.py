@@ -8,6 +8,8 @@ Members:
     David Hersh
     Michael Kouremetis
 '''
+
+import sys
 import socket
 import pickle
 from matrix import Matrix
@@ -22,6 +24,8 @@ committed_q = None
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
+
+t = None
 
 def handler(client):
     num_rounds = 0
@@ -75,6 +79,10 @@ def handler(client):
             client.close()
 
 if __name__ == '__main__':
+    if sys.version_info.major != 2:
+        print('Must use python v2')
+        sys.exit()
+
     s.bind((host,port))
     s.listen(5)
 
@@ -83,8 +91,8 @@ if __name__ == '__main__':
             client, addr = s.accept()
             print('Connected to {}'.format(addr))
             client.send('Please Login!')
-            t = threading.Thread(target=handler, args=[client]).start()
-        except Exception as e:
-            t.close()
+            t = threading.Thread(target=handler, args=[client])
+            t.start()
+        except:
             break
 

@@ -9,13 +9,14 @@ Members:
     Michael Kouremetis
 '''
 
+import sys
 import socket
 import pickle
 from matrix import Matrix
 from random import randint
 from copy import deepcopy
 
-s = socket.socket()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
 
@@ -37,6 +38,9 @@ def create_permutation(filename, size):
 
 
 if __name__ == '__main__':
+    if sys.version_info.major != 2:
+        print('Must use python v2')
+        sys.exit()
 
     g1 = Matrix('g1.txt')
     g2 = Matrix('g2.txt')
