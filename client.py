@@ -5,13 +5,10 @@ import pickle
 from matrix import Matrix
 from random import randint
 from copy import deepcopy
-from graph_tool.all import *
-
 
 s = socket.socket()
 host = '127.0.0.1'
 port = 44444
-num_rounds = 0
 
 #Create a permutation matrix file
 def create_permutation(filename, size):
@@ -40,9 +37,6 @@ if __name__ == '__main__':
     q.permute(alpha)
     #Need to commit to Q here and create subgraph q'
     
-    
-    
-
     #Send the server committed Q
     q_data = ['q', q]
     txt = pickle.dumps(q_data)
@@ -53,13 +47,15 @@ if __name__ == '__main__':
     
     while True:
         try:
-            if num_rounds == 100:
-                break
-                
+            
             data = s.recv(1024)
-            print data
+            print(data)
+            print("")
+            
             if data.find('INVALID LOGIN ATTEMPT') != -1:
                 break
+            elif data.find('SUCCESSFUL LOGIN') != -1:
+                break            
             
             raw_input("Press enter to continue...")
             
@@ -73,7 +69,6 @@ if __name__ == '__main__':
                 msg = pickle.dumps(info)            
                 s.send(msg)
             
-            num_rounds += 1
         except:
             break
             s.close

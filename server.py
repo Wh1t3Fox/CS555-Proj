@@ -16,8 +16,10 @@ host = '127.0.0.1'
 port = 44444
 
 def handler(client, addr):
+    num_rounds = 0
     while True:
         try:
+               
             data = client.recv(1024)
             if not data:
                 break
@@ -38,7 +40,7 @@ def handler(client, addr):
                     break
              
             elif lst[0] == 2:
-                print lst
+                print(lst)
                 #insert checking committed q here
                 #pi, subgraph = lst[1], lst[2]
                 #m = deepcopy(g1)
@@ -53,8 +55,14 @@ def handler(client, addr):
             else:
                 #pi and the subgraph Q'
                 msg = 'Please send pi and the subgraph'
+            
+            if num_rounds == 100:
+                client.send("SUCCESSFUL LOGIN")
+                break
                 
-            client.send(msg)
+            client.send(msg)            
+            num_rounds += 1
+            
         except:
             client.close()
 
