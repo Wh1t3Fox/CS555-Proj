@@ -9,7 +9,7 @@ import thread
 
 g1 = Matrix('g1.txt')
 g2 = Matrix('g2.txt')
-q = None
+committed_q = None
 
 s = socket.socket()
 host = '127.0.0.1'
@@ -25,15 +25,14 @@ def handler(client, addr):
             lst = pickle.loads(data)
             
             if lst[0] == 'q':
-                global q
-                q = lst[1]
+                global committed_q
+                committed_q = lst[1]
                 
             elif lst[0] == 1:
                 #print lst
                 m = deepcopy(g2)
                 m.permute(lst[1])
-                valid_data = m.equals(q)
-                if not valid_data:
+                if not m.equals(lst[2]):
                     client.send("INVALID LOGIN ATTEMPT")
                     break
              
