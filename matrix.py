@@ -1,3 +1,12 @@
+'''
+CS555 Project
+Zero-Knowledge Subgraph Isomorphism
+Members:
+    Craig West
+    Max DeWees
+    David Hersh
+    Michael Kouremetis
+'''
 
 class Matrix:
 
