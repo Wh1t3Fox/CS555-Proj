@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 '''
 CS555 Project
 Zero-Knowledge Subgraph Isomorphism
@@ -28,17 +28,17 @@ def handler(client, addr):
     num_rounds = 0
     while True:
         try:
-               
+
             data = client.recv(1024)
             if not data:
                 break
-               
+
             lst = pickle.loads(data)
-            
+
             if lst[0] == 'q':
                 global committed_q
                 committed_q = lst[1]
-                
+
             elif lst[0] == 1:
                 #insert checking committed q here
                 alpha, q = lst[1], lst[2]
@@ -47,7 +47,7 @@ def handler(client, addr):
                 if not m.equals(q):
                     client.send("INVALID LOGIN ATTEMPT")
                     break
-             
+
             elif lst[0] == 2:
                 print(lst)
                 #insert checking committed q here
@@ -57,21 +57,21 @@ def handler(client, addr):
                 #if not m.equals(subgraph):
                 #   client.send("INVALID LOGIN ATTEMPT")
                 #   break
-                
+
             if randint(1,2) == 1:
                 #alpha and the permutation Q
                 msg = 'Please send alpha and Graph Q'
             else:
                 #pi and the subgraph Q'
                 msg = 'Please send pi and the subgraph'
-            
+
             if num_rounds == 100:
                 client.send("SUCCESSFUL LOGIN")
                 break
-                
-            client.send(msg)            
+
+            client.send(msg)
             num_rounds += 1
-            
+
         except:
             client.close()
 

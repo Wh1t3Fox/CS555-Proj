@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 '''
 CS555 Project
 Zero-Knowledge Subgraph Isomorphism
@@ -34,50 +34,50 @@ def create_permutation(filename, size):
                 else:
                     fw.write('0 ')
             fw.write('\n')
-                
+
 
 if __name__ == '__main__':
 
-    g1 = Matrix('g1.txt')   
+    g1 = Matrix('g1.txt')
     g2 = Matrix('g2.txt')
     create_permutation('alpha.txt', len(g2))
     alpha = Matrix('alpha.txt')
     q = deepcopy(g2)
     q.permute(alpha)
     #Need to commit to Q here and create subgraph q'
-    
+
     #Send the server committed Q
     q_data = ['q', q]
     txt = pickle.dumps(q_data)
-    
+
     s.connect((host,port))
-    
+
     s.send(txt)
-    
+
     while True:
         try:
-            
+
             data = s.recv(1024)
             print(data)
             print("")
-            
+
             if data.find('INVALID LOGIN ATTEMPT') != -1:
                 break
             elif data.find('SUCCESSFUL LOGIN') != -1:
-                break            
-            
+                break
+
             raw_input("Press enter to continue...")
-            
+
             if data.find('alpha and Graph Q') != -1:
                 info = [1, alpha, q]
-                msg = pickle.dumps(info)            
+                msg = pickle.dumps(info)
                 s.send(msg)
-                
+
             elif data.find('pi and the subgraph') != -1:
                 info = [2, 'pi', 'subgraph']
-                msg = pickle.dumps(info)            
+                msg = pickle.dumps(info)
                 s.send(msg)
-            
+
         except:
             break
             s.close
