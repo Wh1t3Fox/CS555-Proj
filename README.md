@@ -54,7 +54,7 @@ problem), but it could no longer be called zero-knowledge.
 ####Simplified Version, hopefully it is correct.
 We are given two graphs G1 and G2.
 - Randomly permute G2 to get a new graph which we save as Q. The permutation is saved as α.
-- Obtain a subgraph of Q using α and save it as Q'.
+- Obtain a subgraph of Q using α and save it as Q'. This is based off of G' (a subgraph of G2)
 - the isomorphism between G1 and Q' using α is stored as π
 - Commit to Q and send to Victor
 - Victor either asks for:
@@ -65,6 +65,7 @@ We are given two graphs G1 and G2.
 ####To-Do List
 - Generate committed Q 
 - Generate subgraph Q'
+- Generate subgraph G'
 - Obtain pi from G1 and Q' (trivial)
 - Check for validity between committed Q and transferred Q on server
 - Client send data for part 2
