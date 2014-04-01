@@ -140,3 +140,16 @@ class Matrix:
                 else:
                     r.append('0')
             self.matrix.append(r)
+
+    """
+    Write the Matrix to a file
+    """
+    def write_to_file(self, filename):
+        with open(filename, 'w') as fw:
+            for i in self.matrix:
+                for j in i:
+                    if j == '1':
+                        fw.write('1 ')
+                    else:
+                        fw.write('0 ')
+                fw.write('\n')
