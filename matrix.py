@@ -9,6 +9,7 @@ Members:
 '''
 from random import randint
 import os
+import hashlib
 
 class Matrix:
 
@@ -153,3 +154,49 @@ class Matrix:
                     else:
                         fw.write('0 ')
                 fw.write('\n')
+      
+'''                
+parameters: random1= Alice random number as int - use random.getrandbits() as uses mersenne twister
+            random2= Bobs random number as int - use random.getrandbits() as uses mersenne twister
+            bit = bit to commit to as int
+'''
+def bitCommit_HASH_SHA1(random1, random2, bit): 
+    return hashlib.sha1(str(random1)+ str(random2) + str(bit)).hexdigest() 
+
+'''
+parameters: random1List = list of random values in int/string values - use random.getrandbits() as uses mersenne twister
+            random2List = list of random values in int/string values - use random.getrandbits() as uses mersenne twister
+            bitList = list of bits in int/string values
+'''
+def bitCommit_HASH_SHA1_list( random1List, random2List, bitList ):
+    commitments = []
+    for idx, val in enumerate(random1List):
+        commitments.append(hashlib.sha1(str(random1List[idx])+ str(random2List[idx]) + str(bitList[idx])).hexdigest())
+        
+    return commitments
+
+'''
+parameters: rand1 = Alice random value as a binary string - use bin() function on integer before passing, and MT
+            rand2 = Bobs random value as a binary string - use bin() function on integer before passing, and MT
+            bit = bit to commit to as a binary string - use bin() function on integer before passing
+'''
+def bitCommit_HASH_SHA1_binary(rand1, rand2 , bit):
+    rand1n = rand1.replace("0b", "")
+    rand2n = rand2.replace("0b", "")
+    bitn = bit.replace("0b", "")
+    return hashlib.sha1(rand1n + rand2n + bitn).hexdigest()
+
+'''    
+parameters: rand1_List = List of Alice's random valuea as a binary strings - use bin() function on integer before passing, and MT
+            rand2 = List of Bob's random values as a binary strings - use bin() function on integer before passing, and MT
+            bit = bits to commit to as a binary strings - use bin() function on integer before passing    
+'''
+def bitCommit_HASH_SHA1_binary_list(rand1_List, rand2_List, bit_List):
+    commitments = []
+    for idx, val in enumerate(rand1_List):
+        r1 = rand1_List[idx].replace("0b", "")
+        r2 = rand2_List[idx].replace("0b", "")
+        b = bit_List[idx].replace("0b", "")
+        commitments.append(hashlib.sha1(r1 + r2 + b).hexdigest())
+    return commitments
+
