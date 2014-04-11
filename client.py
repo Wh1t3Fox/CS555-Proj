@@ -54,8 +54,6 @@ if __name__ == '__main__':
     g1 = Matrix('new', 5)
     g1.write_to_file('g1.txt')
     g2 = Matrix('new', 5)
-    print 'g1', g1
-    print 'g2', g2
     g2.write_to_file('g2.txt')
     alpha = Matrix(len(g2))
     q = deepcopy(g2)

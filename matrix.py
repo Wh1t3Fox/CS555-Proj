@@ -22,10 +22,8 @@ class Matrix:
             self.create_permutation(filename)
         elif os.path.isfile(filename):
             self.create_from_file(filename)
-            print 'create from file'
         else:
             self.create_matrix(size)
-            print 'create from scratch'
 
     """
     Returns a given row
