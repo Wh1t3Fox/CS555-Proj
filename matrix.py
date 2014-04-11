@@ -16,12 +16,16 @@ class Matrix:
     """
     Initalize the matrix
     """
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, size=None):
         self.matrix = []
         if isinstance(filename, int):
             self.create_permutation(filename)
         elif os.path.isfile(filename):
             self.create_from_file(filename)
+            print 'create from file'
+        else:
+            self.create_matrix(size)
+            print 'create from scratch'
 
     """
     Returns a given row
@@ -47,7 +51,22 @@ class Matrix:
     Define how the object prints out
     """
     def __repr__(self):
-        return '\n'.join([' '.join(self.matrix[i]) for i in range(len(self.matrix))])
+        return '\n'.join([''.join(str(self.matrix[i])) for i in range(len(self.matrix))])
+
+    """
+    Creates a matrix
+    """
+    def create_matrix(self, size):
+        for i in range(size):
+            r = [0 for y in range(size)]
+            self.matrix.append(r)
+        for index, i in enumerate(self.matrix):
+            for index2, j in enumerate(i):
+                if j is 0:
+                    r = randint(0, 1)
+                    if r is 1:
+                        self.matrix[index][index2] = r
+                        self.matrix[index2][index] = r
 
     """
     Creates a matrix from an adjacency matrix file
@@ -55,7 +74,7 @@ class Matrix:
     def create_from_file(self, filename):
         with open(filename, 'r') as fr:
             for line in fr:
-                self.matrix.append([i for i in line.split()])
+                self.matrix.append([int(i) for i in line.split()])
 
     """
     Return the values of a given col.
@@ -141,7 +160,6 @@ class Matrix:
                 else:
                     r.append('0')
             self.matrix.append(r)
-
     """
     Write the Matrix to a file
     """
@@ -149,7 +167,7 @@ class Matrix:
         with open(filename, 'w') as fw:
             for i in self.matrix:
                 for j in i:
-                    if j == '1':
+                    if j is 1:
                         fw.write('1 ')
                     else:
                         fw.write('0 ')
