@@ -22,7 +22,7 @@ class Matrix:
             self.create_permutation(filename)
         elif os.path.isfile(filename):
             self.create_from_file(filename)
-        else:
+        else: #this method of calling create_matrix is ugly, but works
             self.create_matrix(size)
 
     """
