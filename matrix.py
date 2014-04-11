@@ -56,8 +56,8 @@ class Matrix:
     """
     def create_matrix(self, size):
         for i in range(size):
-            r = [0 for y in range(size)]
-            self.matrix.append(r)
+            row = [0 for y in range(size)]
+            self.matrix.append(row)
         for index, i in enumerate(self.matrix):
             for index2, j in enumerate(i):
                 if j is 0:
@@ -112,7 +112,7 @@ class Matrix:
     specified permutation matrix
     """
     def permute(self, matrix):
-        order = [pos for row in matrix for pos,item in enumerate(row) if item == str(1)]
+        order = [pos for row in matrix for pos,item in enumerate(row) if item is 1]
         tmp = self.matrix
         self.matrix = [tmp[i] for i in order]
 

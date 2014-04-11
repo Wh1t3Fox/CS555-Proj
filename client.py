@@ -52,12 +52,16 @@ if __name__ == '__main__':
         sys.exit()
 
     g1 = Matrix('new', 5)
-    g1.write_to_file('g1.txt')
-    g2 = Matrix('new', 5)
-    g2.write_to_file('g2.txt')
-    alpha = Matrix(len(g2))
+    g1.write_to_file('g1.txt') #this will be sent to Victor
+    alpha = Matrix(len(g1))
+    gprime = deepcopy(g1)
+    gprime.permute(alpha)
+    g2 = Matrix('new', 5) #this is only a placeholder, because
+    #we need to create supergraph of gprime to get g2
+    beta = Matrix(len(g2))
     q = deepcopy(g2)
-    q.permute(alpha)
+    q.permute(beta)
+    
     #Need to commit to Q here and create subgraph q'
 
     #Send the server committed Q
