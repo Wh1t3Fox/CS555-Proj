@@ -190,7 +190,7 @@ parameters: random1List = 2D list of random values in int/string values - use ra
 '''
 Commitment function follows the scheme: H(Random-1, Random-2, Bit), Random-2
 This function is a non-interactive scheme, Alice creates both randoms, does not wait for Bob to send randoms
-parameters:  bitList = 2D list of bits in int/string values
+parameters:  bitList = 2D list of bits in int/string values, aka the matrix
              randSize = in bits, the size of the random values used for the committment
 Note: the Matrix passed must be of form row size = column size ; or else function will blow up
 '''
