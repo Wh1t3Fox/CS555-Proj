@@ -13,6 +13,8 @@ import sys
 import socket
 import pickle
 from matrix import Matrix
+from matrix import bitCommit_HASH_SHA1_list_bo
+from matrix import getRandMatrix
 from copy import deepcopy
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -63,7 +65,14 @@ if __name__ == '__main__':
     q.permute(beta)
     
     #Need to commit to Q here and create subgraph q'
-
+    ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
+    commitment = [] # this is the actual commitment 
+    commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
+    commitment.append(ret[2]) #ret[2] is the matrix of Random 2 's
+    
+    #send "committment" variable to commit
+    #then later for verfifier to confirm commitment, send "ret" variable
+    
     #Send the server committed Q
     q_data = ['q', q]
     txt = pickle.dumps(q_data)
