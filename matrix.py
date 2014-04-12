@@ -180,15 +180,17 @@ parameters: random1= Alice random number as int - use random.getrandbits() as us
         return hashlib.sha1(str(random1)+ str(random2) + str(bit)).hexdigest() 
 
 '''
-parameters: random1List = list of random values in int/string values - use random.getrandbits() as uses mersenne twister
-            random2List = list of random values in int/string values - use random.getrandbits() as uses mersenne twister
-            bitList = list of bits in int/string values
-'''
+parameters: random1List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
+            random2List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
+            bitList = 2D list of bits in int/string values
+'''            
     def bitCommit_HASH_SHA1_list( random1List, random2List, bitList ):
         commitments = []
-        for idx, val in enumerate(random1List):
-            commitments.append(hashlib.sha1(str(random1List[idx])+ str(random2List[idx]) + str(bitList[idx])).hexdigest())
-        
+        for idx, row in enumerate(bitList):  #iterating through row of matrix
+            rowOut=[]
+            for idx1, val in enumerate(row): #iterating through col of matrix
+                rowOut.append(hashlib.sha1(str(random1List[idx][idx1]) + str(random2List[idx][idx1]) + str(bitList[idx][idx1])).hexdigest())
+            commitments.append(rowOut) 
         return commitments
 
 '''
