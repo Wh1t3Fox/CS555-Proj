@@ -170,19 +170,13 @@ class Matrix:
                     else:
                         fw.write('0 ')
                 fw.write('\n')
-      
-'''                
-parameters: random1= Alice random number as int - use random.getrandbits() as uses mersenne twister
-            random2= Bobs random number as int - use random.getrandbits() as uses mersenne twister
-            bit = bit to commit to as int
-'''
-    def bitCommit_HASH_SHA1(random1, random2, bit): 
-        return hashlib.sha1(str(random1)+ str(random2) + str(bit)).hexdigest() 
+
+
 
 '''
 parameters: random1List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
             random2List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
-            bitList = 2D list of bits in int/string values
+            bitList = 2D list of bits in int/string values aka the matrix
 '''            
     def bitCommit_HASH_SHA1_list( random1List, random2List, bitList ):
         commitments = []
@@ -192,29 +186,46 @@ parameters: random1List = 2D list of random values in int/string values - use ra
                 rowOut.append(hashlib.sha1(str(random1List[idx][idx1]) + str(random2List[idx][idx1]) + str(bitList[idx][idx1])).hexdigest())
             commitments.append(rowOut) 
         return commitments
-
+        
 '''
-parameters: rand1 = Alice random value as a binary string - use bin() function on integer before passing, and MT
-            rand2 = Bobs random value as a binary string - use bin() function on integer before passing, and MT
-            bit = bit to commit to as a binary string - use bin() function on integer before passing
+Commitment function follows the scheme: H(Random-1, Random-2, Bit), Random-2
+This function is a non-interactive scheme, Alice creates both randoms, does not wait for Bob to send randoms
+parameters:  bitList = 2D list of bits in int/string values
+             randSize = in bits, the size of the random values used for the committment
+Note: the Matrix passed must be of form row size = column size ; or else function will blow up
 '''
-    def bitCommit_HASH_SHA1_binary(rand1, rand2 , bit):
-        rand1n = rand1.replace("0b", "")
-        rand2n = rand2.replace("0b", "")
-        bitn = bit.replace("0b", "")
-        return hashlib.sha1(rand1n + rand2n + bitn).hexdigest()
-
-'''    
-parameters: rand1_List = List of Alice's random valuea as a binary strings - use bin() function on integer before passing, and MT
-            rand2 = List of Bob's random values as a binary strings - use bin() function on integer before passing, and MT
-            bit = bits to commit to as a binary strings - use bin() function on integer before passing    
-'''
-    def bitCommit_HASH_SHA1_binary_list(rand1_List, rand2_List, bit_List):
+    def bitCommit_HASH_SHA1_list_bo(bitList, randSize):
+        randMatrix1= getRandMatrix(len(bitList), randSize)
+        randMatrix2=getRandMatrix(len(bitList), randSize)
         commitments = []
-        for idx, val in enumerate(rand1_List):
-            r1 = rand1_List[idx].replace("0b", "")
-            r2 = rand2_List[idx].replace("0b", "")
-            b = bit_List[idx].replace("0b", "")
-            commitments.append(hashlib.sha1(r1 + r2 + b).hexdigest())
-        return commitments
+        for idx, row in enumerate(bitList):  #iterating through row of matrix
+            rowOut=[]
+            for idx1, val in enumerate(row): #iterating through col of matrix
+                rowOut.append(hashlib.sha1(str(randMatrix1[idx][idx1]) + str(randMatrix2[idx][idx1]) + str(val)).hexdigest())
+            commitments.append(rowOut) 
+        out = []
+        out.append(commitments)
+        out.append(randMatrix1)
+        out.append(randMatrix2)
+        return out    # returns [commitments, 1st set of randoms, 2nd set of randoms] - a bit commit to send would be
+                      # [commitments, 1st set of randoms]  OR [commitments, 2nd set of randoms]
+    
+        
+'''
+returns a 2D matrix of random value for the bit committment, this function is called by bitCommit_HASH_SHA1_list_bo()
+parameters: size = row size(or column size) or matrix will be commiting to
+            randValueSize = the size(in bits) of the random values used in the committment
+'''
+    def getRandMatrix(size, randValueSize):
+        random.seed() #getting the random generator going
+        rand= []
+        for i in range(size):
+            row = []
+            for j in range(size):
+                row. append(str(random.getrandbits(randValueSize))) 
+            rand.append(row)
+        return rand
+
+
+
 
