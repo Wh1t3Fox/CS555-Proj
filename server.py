@@ -12,10 +12,9 @@ Members:
 import sys
 import socket
 import pickle
-from matrix import bitCommit_HASH_SHA1_list_bo
-from matrix import getRandMatrix
+from commitment import *
 from matrix import Matrix
-import random
+from random import randint
 from copy import deepcopy
 import threading
 

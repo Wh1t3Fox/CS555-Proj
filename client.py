@@ -14,8 +14,7 @@ import socket
 import pickle
 import random
 from matrix import Matrix
-from matrix import bitCommit_HASH_SHA1_list_bo
-from matrix import getRandMatrix
+from commitment import *
 from copy import deepcopy
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
