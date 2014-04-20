@@ -37,9 +37,7 @@ def validate_q(q, rands):
 def handler(client):
     num_rounds = 0
     while True:
-        try:
-            print("NUM ROUNDS: %s" % num_rounds)
-            
+        try:            
             data = client.recv(12800)
             if not data:
                 break

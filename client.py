@@ -55,36 +55,36 @@ if __name__ == '__main__':
         sys.exit()
     
     s.connect((host,port))
-
-    g1 = Matrix('new',5)
-    g1.write_to_file('g1.txt')
-            
-    gprime = deepcopy(g1)
-    beta = Matrix(len(g1))
-    gprime.permute(beta)
-            
-    g2 = Matrix('new',5) #temporary placeholder
-    g2.write_to_file('g2.txt')          
-    
-    alpha = Matrix(len(g2))
-    q = deepcopy(g2)
-    q.permute(alpha)
-     
-    #Need to commit to Q here and create subgraph q'
-    ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
-    commitment = [] # this is the actual commitment 
-    commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
-    commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
-        
-    #Send the server committed Q
-    q_data = ['q', commitment]
-    txt = pickle.dumps(q_data)
-    s.send(txt)
-
     while True:
         try:
+            g1 = Matrix('new',5)
+            g1.write_to_file('g1.txt')
             
-            data = s.recv(1024)
+            gprime = deepcopy(g1)
+            beta = Matrix(len(g1))
+            gprime.permute(beta)
+            
+            g2 = Matrix('new',5) #temporary placeholder
+            g2.write_to_file('g2.txt')          
+    
+            alpha = Matrix(len(g2))
+            q = deepcopy(g2)
+            q.permute(alpha)
+     
+            #Need to commit to Q here and create subgraph q'
+            ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
+            commitment = [] # this is the actual commitment 
+            commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
+            commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
+        
+            #Send the server committed Q
+            q_data = ['q', commitment]
+            txt = pickle.dumps(q_data)
+            s.send(txt)
+
+    
+            r = s.recv(1024).split('\n')
+            data = r[len(r)-2]
             print(data)
             print("")
 
