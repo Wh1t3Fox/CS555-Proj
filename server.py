@@ -56,12 +56,12 @@ def handler(client):
             elif lst[0] == 1:
                 alpha, q, rand_val = lst[1], lst[2], lst[3]
                 if validate_q(q, rand_val):
-                    client.send("COMITTED Q DOES NOT MATCH\n")
+                    client.sendall("COMITTED Q DOES NOT MATCH\n")
                     break
                 m = deepcopy(g2)
                 m.permute(alpha)
                 if not m.equals(q):
-                    client.send("INVALID LOGIN ATTEMPT\n")
+                    client.sendall("INVALID LOGIN ATTEMPT\n")
                     break
 
             elif lst[0] == 2:
@@ -75,7 +75,7 @@ def handler(client):
                 #   break
             
             if num_rounds == 7:
-                client.send("SUCCESSFUL LOGIN\n")
+                client.sendall("SUCCESSFUL LOGIN\n")
                 client.close()
                 break
             else:
@@ -88,7 +88,7 @@ def handler(client):
                     msg = 'Please send pi and the subgraph\n'
                     num_rounds += 1
                 
-            client.send(msg)
+            client.sendall(msg)
         except Exception,e:
             client.close()
             print str(e)

@@ -81,7 +81,7 @@ if __name__ == '__main__':
             #Send the server committed Q
             q_data = ['q', commitment]
             txt = pickle.dumps(q_data)
-            s.send(txt)
+            s.sendall(txt)
 
             r = s.recv(1024).split('\n')
             data = r[len(r)-2]
@@ -99,12 +99,12 @@ if __name__ == '__main__':
                 #for verification send ret[1] so the server can then check the commitment
                 info = [1, alpha, q, ret[1]]
                 msg = pickle.dumps(info)
-                s.send(msg)
+                s.sendall(msg)
 
             elif data.find('pi and the subgraph') != -1:
                 info = [2, 'pi', 'subgraph']
                 msg = pickle.dumps(info)
-                s.send(msg)
+                s.sendall(msg)
 
         except Exception,e:
             print str(e)
