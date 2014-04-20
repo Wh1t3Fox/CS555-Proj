@@ -57,14 +57,12 @@ if __name__ == '__main__':
     s.connect((host,port))
     
     g1 = Matrix('new',5)
-    g1.write_to_file('g1.txt')
             
     gprime = deepcopy(g1)
     beta = Matrix(len(g1))
     gprime.permute(beta)
             
     g2 = Matrix('new',5) #temporary placeholder
-    g2.write_to_file('g2.txt')   
     
     while True:
         try:
@@ -79,7 +77,7 @@ if __name__ == '__main__':
             commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
         
             #Send the server committed Q
-            q_data = ['q', commitment]
+            q_data = ['q', commitment, g1, g2]
             txt = pickle.dumps(q_data)
             s.send(txt)
 

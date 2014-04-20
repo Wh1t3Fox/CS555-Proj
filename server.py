@@ -48,9 +48,7 @@ def handler(client):
                 global g1
                 global g2
                 global committed_q
-                committed_q = lst[1]
-                g1 = Matrix('g1.txt')
-                g2 = Matrix('g2.txt')
+                committed_q, g1, g2 = lst[1], lst[2], lst[3]
                 num_rounds -= 1
 
             elif lst[0] == 1:
