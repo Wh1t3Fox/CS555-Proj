@@ -12,43 +12,59 @@ Members:
 import sys
 import socket
 import pickle
+import hashlib
 from commitment import *
 from matrix import Matrix
 from random import randint
 from copy import deepcopy
 import threading
 
-g1 = Matrix('g1.txt')
-g2 = Matrix('g2.txt')
+
+g1 = None
+g2 = None
 committed_q = None
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
 
+def validate_q(q, rands):
+    for i in xrange(len(q)):
+        for j in xrange(len(q)):
+            if not hashlib.sha1(rands[i][j] + committed_q[1][i][j] + str(q[i][j])).hexdigest() == committed_q[0][i][j]:
+                return False
 
 def handler(client):
     num_rounds = 0
     while True:
         try:
-
-            data = client.recv(1024)
+            print("NUM ROUNDS: %s" % num_rounds)
+            
+            data = client.recv(12800)
             if not data:
                 break
-
+           
             lst = pickle.loads(data)
-
+            
+            
             if lst[0] == 'q':
+                global g1
+                global g2
                 global committed_q
                 committed_q = lst[1]
+                g1 = Matrix('g1.txt')
+                g2 = Matrix('g2.txt')
+                num_rounds -= 1
 
             elif lst[0] == 1:
-                #insert checking committed q here
-                alpha, q = lst[1], lst[2]
+                alpha, q, rand_val = lst[1], lst[2], lst[3]
+                if validate_q(q, rand_val):
+                    client.send("COMITTED Q DOES NOT MATCH\n")
+                    break
                 m = deepcopy(g2)
                 m.permute(alpha)
                 if not m.equals(q):
-                    client.send("INVALID LOGIN ATTEMPT")
+                    client.send("INVALID LOGIN ATTEMPT\n")
                     break
 
             elif lst[0] == 2:
@@ -60,23 +76,26 @@ def handler(client):
                 #if not m.equals(subgraph):
                 #   client.send("INVALID LOGIN ATTEMPT")
                 #   break
-
-            if randint(1,2) == 1:
-                #alpha and the permutation Q
-                msg = 'Please send alpha and Graph Q'
-            else:
-                #pi and the subgraph Q'
-                msg = 'Please send pi and the subgraph'
-
-            if num_rounds == 100:
-                client.send("SUCCESSFUL LOGIN")
+            
+            if num_rounds == 7:
+                client.send("SUCCESSFUL LOGIN\n")
+                client.close()
                 break
-
+            else:
+                if randint(1,2) == 1:
+                    #alpha and the permutation Q
+                    msg = 'Please send alpha and Graph Q\n'
+                    num_rounds += 1
+                else:
+                    #pi and the subgraph Q'
+                    msg = 'Please send pi and the subgraph\n'
+                    num_rounds += 1
+                
             client.send(msg)
-            num_rounds += 1
-
-        except:
+        except Exception,e:
             client.close()
+            print str(e)
+            break
 
 if __name__ == '__main__':
     if sys.version_info.major != 2:
@@ -90,7 +109,6 @@ if __name__ == '__main__':
         try:
             client, addr = s.accept()
             print('Connected to {}'.format(addr))
-            client.send('Please Login!')
             t = threading.Thread(target=handler, args=[client])
             t.start()
         except:

@@ -13,6 +13,7 @@ import sys
 import socket
 import pickle
 import random
+import time
 from matrix import Matrix
 from commitment import *
 from copy import deepcopy
@@ -52,38 +53,37 @@ if __name__ == '__main__':
     if sys.version_info.major != 2:
         print('Must use python v2')
         sys.exit()
-
-    g1 = Matrix('new', 5)
-    g1.write_to_file('g1.txt') #this will be sent to Victor
-    alpha = Matrix(len(g1))
-    gprime = deepcopy(g1)
-    gprime.permute(alpha)
-    g2 = Matrix('new', 5) #this is only a placeholder, because
-    #we need to create supergraph of gprime to get g2
-    beta = Matrix(len(g2))
-    q = deepcopy(g2)
-    q.permute(beta)
     
+    s.connect((host,port))
+
+    g1 = Matrix('new',5)
+    g1.write_to_file('g1.txt')
+            
+    gprime = deepcopy(g1)
+    beta = Matrix(len(g1))
+    gprime.permute(beta)
+            
+    g2 = Matrix('new',5) #temporary placeholder
+    g2.write_to_file('g2.txt')          
+    
+    alpha = Matrix(len(g2))
+    q = deepcopy(g2)
+    q.permute(alpha)
+     
     #Need to commit to Q here and create subgraph q'
     ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
     commitment = [] # this is the actual commitment 
     commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
-    commitment.append(ret[2]) #ret[2] is the matrix of Random 2 's
-    
-    #send "committment" variable to commit
-    #then later for verfifier to confirm commitment, send "ret" variable
-    
+    commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
+        
     #Send the server committed Q
-    q_data = ['q', q]
+    q_data = ['q', commitment]
     txt = pickle.dumps(q_data)
-
-    s.connect((host,port))
-
     s.send(txt)
 
     while True:
         try:
-
+            
             data = s.recv(1024)
             print(data)
             print("")
@@ -96,7 +96,8 @@ if __name__ == '__main__':
             raw_input("Press enter to continue...")
 
             if data.find('alpha and Graph Q') != -1:
-                info = [1, alpha, q]
+                #for verification send ret[1] so the server can then check the commitment
+                info = [1, alpha, q, ret[1]]
                 msg = pickle.dumps(info)
                 s.send(msg)
 
@@ -105,6 +106,7 @@ if __name__ == '__main__':
                 msg = pickle.dumps(info)
                 s.send(msg)
 
-        except:
+        except Exception,e:
+            print str(e)
             break
             s.close

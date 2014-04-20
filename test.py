@@ -1,112 +1,52 @@
 #!/usr/bin/env python
 
-from graph_tool.all import *
+import sys
+import socket
+import pickle
+import random
 from matrix import Matrix
-from random import randint
-
-g1 = Graph()
-g2 = Graph()
-
-#Create a permutation matrix file
-def create_permutation(filename, size):
-    s = set()
-    tmp = []
-    while len(set(tmp)) != size:
-        tmp.append(randint(0, size-1))
-    order = [x for x in tmp if x not in s and not s.add(x)]
-    with open(filename, 'w') as fw:
-        for  i in range(size):
-            for j in range(size):
-                if order[i] == j:
-                    fw.write('1 ')
-                else:
-                    fw.write('0 ')
-            fw.write('\n')
-
-#Create a matrix file from a graph
-def create_matrix(filename, graph):
-    with open(filename, 'w') as fw:
-        for i in range(graph.num_vertices()):
-            for j in range(graph.num_vertices()):
-                if graph.edge(i, j):
-                    fw.write('1 ')
-                else:
-                    fw.write('0 ')
-            fw.write('\n')
-
-#Create a graph from a matrix
-def create_graph(matrix, graph):
-    graph.add_vertex(len(matrix))
-    for line, row in enumerate(matrix):
-        for pos, item in enumerate(row):
-            if item == str(1) and not graph.edge(pos, line):
-                graph.add_edge(line, pos)
-
-#Create an image of a graph
-def draw_graph(filename, graph):
-    graph_draw(graph, vertex_text=graph.vertex_index, vertex_font_size=18,\
-            output_size=(500, 500), output=filename)
+from commitment import *
+from copy import deepcopy
+import hashlib
 
 
-#DFS on an adjacency matrix
-def dfs(matrix, start_node):
-    graph = {}
-    stack = []
-    visited = set()
+g1 = Matrix('new', 5)
+g1.write_to_file('g1.txt') #this will be sent to Victor
+alpha = Matrix(len(g1))
+gprime = deepcopy(g1)
+gprime.permute(alpha)
 
-    for line,row in enumerate(matrix):
-        for col,value in enumerate(row):
-            try:
-                graph[line]
-                if value == '1':
-                    graph[line].append(col)                
-            except:
-                graph[line] = []
-
-    visited.add(start_node)
-    stack.append(start_node)
-    while len(stack) > 0:
-        current = stack.pop()
-        print current,
-        for c_node in graph[current]:
-            if c_node not in visited:
-                stack.append(c_node)
-                visited.add(c_node)
+g2 = Matrix('new', 5) #this is only a placeholder, because
+#we need to create supergraph of gprime to get g2
+beta = Matrix(len(g2))
+q = deepcopy(g2)
+q.permute(beta)    
 
 
-
-
-if __name__ == '__main__':
-    g1_matrix = Matrix('g1.txt')
-    dfs(g1_matrix, 0)
-    """
-    g2_matrix = Matrix('g2.txt')
-    create_graph(g1_matrix, g1)
-    create_graph(g2_matrix, g2)
+#Need to commit to Q here and create subgraph q'
+ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
+commitment = [] # this is the actual commitment 
+commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
+commitment.append(ret[2]) #ret[2] is the matrix of Random 2 's
     
-    q = Graph(g2)
-    random_rewire(q, model='uncorrelated')
+#send "committment" variable to commit
+#then later for verfifier to confirm commitment, send "ret" variable
+
+print ret[0][0][0]
+print ""
+print ret[1][0][0]
+print ""
+print ret[2][0][0]
+print ""
+
+print hashlib.sha1(ret[1][0][0] +ret[2][0][0] + str(q[0][0])).hexdigest()
+
+for i,j in zip(commitment[1], ret[2]):
+    print i == j
+print ""
+
+for i in xrange(len(q)):
+    for j in xrange(len(q)):
+       print hashlib.sha1(ret[1][i][j] + commitment[1][i][j] + str(q[i][j])).hexdigest() == commitment[0][i][j]
     
-    ####Testing to prove the graphs will work for the proj#####    
-    vm, em = subgraph_isomorphism(g1, q)
-    print len(vm)
-    for i in range(len(vm)):
-        q.set_vertex_filter(None)
-        q.set_edge_filter(None)
-        vmask, emask = mark_subgraph(q, g1, vm[i], em[i]) 
-        q.set_vertex_filter(vmask)
-        q.set_edge_filter(emask)
-        assert(isomorphism(q,g1))
-    ewidth = q.copy_property(emask, value_type="double")
-    ewidth.a += 0.5
-    ewidth.a *= 2 
-    graph_draw(q, vertex_fill_color=vmask, edge_color=emask, edge_pen_width=ewidth, output_size=(500,500), output = "g2_sub.png")
-    ####END######
-    
-    
-    
-    
-    draw_graph('g1.png', g1)
-    draw_graph('g2.png', g2)
-    draw_graph('q.png', q)
-    """
+   
