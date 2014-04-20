@@ -1,4 +1,5 @@
 import os
+import hashlib
 '''
     parameters: random1List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
             random2List = 2D list of random values in int/string values - use random.getrandbits() as uses mersenne twister
