@@ -55,18 +55,19 @@ if __name__ == '__main__':
         sys.exit()
     
     s.connect((host,port))
+    
+    g1 = Matrix('new',5)
+    g1.write_to_file('g1.txt')
+            
+    gprime = deepcopy(g1)
+    beta = Matrix(len(g1))
+    gprime.permute(beta)
+            
+    g2 = Matrix('new',5) #temporary placeholder
+    g2.write_to_file('g2.txt')   
+    
     while True:
         try:
-            g1 = Matrix('new',5)
-            g1.write_to_file('g1.txt')
-            
-            gprime = deepcopy(g1)
-            beta = Matrix(len(g1))
-            gprime.permute(beta)
-            
-            g2 = Matrix('new',5) #temporary placeholder
-            g2.write_to_file('g2.txt')          
-    
             alpha = Matrix(len(g2))
             q = deepcopy(g2)
             q.permute(alpha)
