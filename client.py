@@ -76,7 +76,7 @@ if __name__ == '__main__':
             commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
             commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
         
-            #Send the server committed Q
+            #Send the server committed Q and g1, g2
             q_data = ['q', commitment, g1, g2]
             txt = pickle.dumps(q_data)
             s.send(txt)
