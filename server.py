@@ -44,7 +44,6 @@ def handler(client):
            
             lst = pickle.loads(data)
             
-            
             if lst[0] == 'q':
                 global g1
                 global g2

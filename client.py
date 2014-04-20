@@ -82,7 +82,6 @@ if __name__ == '__main__':
             txt = pickle.dumps(q_data)
             s.send(txt)
 
-    
             r = s.recv(1024).split('\n')
             data = r[len(r)-2]
             print(data)
