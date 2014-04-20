@@ -83,7 +83,7 @@ class Matrix:
 
     """
     Set the values of a given col.
-    The input must be a list of strings
+    The input must be a list 
     """
     def set_col(self, col, values):
         for v,m in zip(values, self.matrix):
@@ -126,9 +126,9 @@ class Matrix:
             for i in range(size):
                 for j in range(size):
                     if order[i] == j:
-                        fw.write('1 ')
+                        fw.write(1)
                     else:
-                        fw.write('0 ')
+                        fw.write(0)
                 fw.write('\n')
 
     """
@@ -154,9 +154,9 @@ class Matrix:
             r = []
             for j in range(size):
                 if order[i] == j:
-                    r.append('1')
+                    r.append(1)
                 else:
-                    r.append('0')
+                    r.append(0)
             self.matrix.append(r)
     """
     Write the Matrix to a file
