@@ -91,11 +91,10 @@ def handler(client):
                 if randint(1,2) == 1:
                     #alpha and the permutation Q
                     msg = 'Please send alpha and Graph Q\n'
-                    num_rounds += 1
                 else:
                     #pi and the subgraph Q'
                     msg = 'Please send pi and the subgraph\n'
-                    num_rounds += 1
+                num_rounds += 1
                 
             client.sendall(msg)
         except Exception,e:
