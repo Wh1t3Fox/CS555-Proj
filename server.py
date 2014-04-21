@@ -28,6 +28,17 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
 
+def read_data(sock, buffer_size=4096):
+    buff = ''
+    while True:
+        data = sock.recv(buffer_size)
+        if data.endswith("THE END"):
+            buff += data[:-7]
+            break
+        else:
+            buff += data
+    return buff
+
 def validate_q(q, rands):
     for i in xrange(len(q)):
         for j in xrange(len(q)):
@@ -38,7 +49,7 @@ def handler(client):
     num_rounds = 0
     while True:
         try:            
-            data = client.recv(12800)
+            data = read_data(client)
             if not data:
                 break
            

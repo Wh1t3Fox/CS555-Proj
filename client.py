@@ -82,6 +82,7 @@ if __name__ == '__main__':
             q_data = ['q', commitment]
             txt = pickle.dumps(q_data)
             s.sendall(txt)
+            s.sendall("THE END")
 
             r = s.recv(1024).split('\n')
             data = r[len(r)-2]
@@ -100,11 +101,13 @@ if __name__ == '__main__':
                 info = [1, alpha, q, ret[1]]
                 msg = pickle.dumps(info)
                 s.sendall(msg)
+                s.sendall("THE END")
 
             elif data.find('pi and the subgraph') != -1:
                 info = [2, 'pi', 'subgraph']
                 msg = pickle.dumps(info)
                 s.sendall(msg)
+                s.sendall("THE END")
 
         except Exception,e:
             print str(e)
