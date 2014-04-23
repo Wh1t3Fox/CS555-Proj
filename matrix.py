@@ -65,7 +65,50 @@ class Matrix:
                     if r is 1:
                         self.matrix[index][index2] = r
                         self.matrix[index2][index] = r
+    """
+    Creates a supergraph
+    """
 
+    def create_supergraph(self):
+        top = randint(1, 2) #number of rows to be added to the top and
+                            #number of elements to be added to the front of
+                            #existing lists
+        bottom = randint(1, 2) #number of rows to be added to the bottom and
+                               #number of elements to be added to the back of
+                               #existing lists
+        newrowlength = len(self.matrix[0]) + top + bottom
+        for i in self.matrix: #add elements to old graph rows to make them
+                              #new size rows, and initialize to 0
+            for x in range(top):
+                i.insert(x, 0)
+            for y in range(bottom):
+                i.append(0)
+        #initialize and add top and bottom rows
+        for x in range(top):
+            row = [0 for y in range(newrowlength)]
+            self.matrix.insert(x, row)
+        for x in range(bottom):
+            row = [0 for y in range(newrowlength)]
+            self.matrix.append(row)
+        
+        #set vertex connections (i.e. ones) randomly in added rows,
+        #and in newly added elements in old rows
+        for x in range(top):
+            for y in range(newrowlength):
+                r = randint(0, 1)
+                if r is 1:
+                    self.matrix[x][y] = r
+                    self.matrix[y][x] = r
+        for x in range(bottom):
+            for y in range(newrowlength):
+                if self.matrix[newrowlength-x-1][y] is not 1:
+                    r = randint(0, 1)
+                    if r is 1:
+                        self.matrix[newrowlength-x-1][y] = r
+                        self.matrix[y][newrowlength-x-1] = r
+        
+            
+    
     """
     Creates a matrix from an adjacency matrix file
     """
