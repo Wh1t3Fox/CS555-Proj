@@ -59,10 +59,7 @@ if __name__ == '__main__':
     g1 = Matrix('new',5)
     g1.write_to_file('g1.txt')
             
-    #THIS IS WRONG, IT DOESN'T DO AN ISOMORPHISM
-    gprime = deepcopy(g1)
-    beta = Matrix(len(g1))
-    gprime.permute(beta)
+    isofunction, gprime = g1.isomorphism()
             
     g2 = deepcopy(gprime)
     g2.create_supergraph()
