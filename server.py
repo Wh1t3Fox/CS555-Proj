@@ -48,13 +48,13 @@ def validate_q(q, rands):
 def handler(client):
     num_rounds = 0
     while True:
-        try:            
+        try:
             data = read_data(client)
             if not data:
                 break
-           
+
             lst = pickle.loads(data)
-            
+
             if lst[0] == 'q':
                 global g1
                 global g2
@@ -82,7 +82,7 @@ def handler(client):
                 #if not m.equals(subgraph):
                 #   client.send("INVALID LOGIN ATTEMPT")
                 #   break
-            
+
             if num_rounds == 7:
                 client.sendall("SUCCESSFUL LOGIN\n")
                 client.close()
@@ -95,11 +95,11 @@ def handler(client):
                     #pi and the subgraph Q'
                     msg = 'Please send pi and the subgraph\n'
                 num_rounds += 1
-                
+
             client.sendall(msg)
-        except Exception,e:
+        except Exception as e:
             client.close()
-            print str(e)
+            print(str(e))
             break
 
 if __name__ == '__main__':
