@@ -77,6 +77,7 @@ class Matrix:
             
     """
     Creates a supergraph
+    NEEDS TO BE MODIFIED TO RETURN TOP AND BOTTOM
     """
 
     def create_supergraph(self):
@@ -155,7 +156,7 @@ class Matrix:
                 if key is key2:
                     new_graph[isofunction[key2]] = orig_graph[key]
                     break
-        #Turn new_graph dictionary into adjacency matrix, and
+        #Turn new_graph dictionary into Matrix object, and
         #return the new matrix
         new_matrix = Matrix('empty', len(self.matrix))
         for key, value in new_graph.iteritems():

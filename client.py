@@ -67,6 +67,7 @@ if __name__ == '__main__':
     
     while True:
         try:
+            #this whole thing needs to be changed
             alpha = Matrix(len(g2))
             q = deepcopy(g2)
             q.permute(alpha)
