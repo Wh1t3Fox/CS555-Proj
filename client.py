@@ -23,7 +23,7 @@ parser.add_argument('-g1','--graph1', type=str, help='Name of the adjacency matr
 parser.add_argument('-g2','--graph2', type=str, help='Name of the adjacency matrix file for G2', required=False)
 parser.add_argument('-s','--subgraph', type=str, help='Name of the adjacency matrix file for the subgraph', required=False)
 parser.add_argument('-i','--isomorphism', type=str, help='Name of the adjacency matrix file for the isomorphism', required=False)
-args = vars(parser.parse_args())
+args = parser.parse_args()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
