@@ -18,14 +18,6 @@ from matrix import Matrix
 from commitment import *
 from copy import deepcopy
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-g1','--graph1', type=file, help='Name of the adjacency matrix file for G1', required=False)
-parser.add_argument('-g2','--graph2', type=file, help='Name of the adjacency matrix file for G2', required=False)
-parser.add_argument('-s','--subgraph', type=file, help='Name of the adjacency matrix file for the subgraph', required=False)
-parser.add_argument('-i','--isomorphism', type=file, help='Name of the adjacency matrix file for the isomorphism', required=False)
-args = parser.parse_args()
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '127.0.0.1'
 port = 44444
 
@@ -33,16 +25,30 @@ if sys.version_info.major != 2:
     print('Must use python v2')
     sys.exit()
 
-s.connect((host,port))
+parser = argparse.ArgumentParser()
+parser.add_argument('-g1','--graph1', help='Name of the adjacency matrix file for G1', required=False)
+parser.add_argument('-g2','--graph2', help='Name of the adjacency matrix file for G2', required=False)
+parser.add_argument('-s','--subgraph', help='Name of the adjacency matrix file for the subgraph', required=False)
+parser.add_argument('-i','--isomorphism', help='Name of the adjacency matrix file for the isomorphism', required=False)
+args = vars(parser.parse_args())
 
-g1 = Matrix('new',5)
-g1.write_to_file('g1.txt')
-
+if args['graph1']:
+    g1 = Matrix(args['graph1'])
+else:
+    g1 = Matrix('new',5)
+    g1.write_to_file('g1.txt')
+    
 isofunction, gprime = g1.isomorphism()
 
-g2 = deepcopy(gprime)
-g2.create_supergraph()
-g2.write_to_file('g2.txt')
+if args['graph2']:
+    g2 = Matrix(args['graph2'])
+else:
+    g2 = deepcopy(gprime)
+    g2.create_supergraph()
+    g2.write_to_file('g2.txt')
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
 
 while True:
     try:
