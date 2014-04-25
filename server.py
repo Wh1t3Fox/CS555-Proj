@@ -81,7 +81,7 @@ def handler(client):
                     break
                 m = deepcopy(g2)
                 m.permute(alpha)
-                #check to make sure g1 + alpha = Q
+                #check to make sure g2 + alpha = Q
                 if not m.equals(q):
                     client.sendall("INVALID LOGIN ATTEMPT\n")
                     break
