@@ -21,45 +21,6 @@ from copy import deepcopy
 host = '127.0.0.1'
 port = 44444
 
-<<<<<<< HEAD
-#DFS on an adjacency matrix
-def dfs(matrix, start_node):
-    graph = {}
-    stack = []
-    visited = set()
-
-    for line,row in enumerate(matrix):
-        for col,value in enumerate(row):
-            try:
-                graph[line]
-                if value == '1':
-                    graph[line].append(col)
-            except:
-                graph[line] = []
-
-    visited.add(start_node)
-    stack.append(start_node)
-    while len(stack) > 0:
-        current = stack.pop()
-        print current,
-        for c_node in graph[current]:
-            if c_node not in visited:
-                stack.append(c_node)
-                visited.add(c_node)
-                
-if __name__ == '__main__':
-    if sys.version_info.major != 2:
-        print('Must use python v2')
-        sys.exit()
-    
-    s.connect((host,port))
-    
-    g1 = Matrix(5)
-    g1.write_to_file('g1.txt')
-            
-    ggpiso, gprime = g1.isomorphism()
-            
-=======
 #Exit if using Python 3.x
 if sys.version_info.major != 2:
     print('Must use python v2')
@@ -75,39 +36,14 @@ args = vars(parser.parse_args())
 
 #If no arguments where supplied, generate our own graphs
 if all(i is None for i in [v for k,v in args.iteritems()]):
-    g1 = Matrix('new',5)
+    g1 = Matrix(5)
     g1.write_to_file('g1.txt')
 
-    isofunction, gprime = g1.isomorphism()
+    ggpiso, gprime = g1.isomorphism()
 
->>>>>>> 972e7637c5d25631e84f79266619dd770c56648d
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
     g2.write_to_file('g2.txt')
-<<<<<<< HEAD
-    
-    while True:
-        try:
-            #this whole thing needs to be changed
-            g2qiso, q = g2.isomorphism()
-            """
-            alpha = Matrix(len(g2))
-            q = deepcopy(g2)
-            q.permute(alpha)
-            """
-            #Need to commit to Q here and create subgraph q'
-            ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
-            commitment = [] # this is the actual commitment 
-            commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
-            commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
-        
-            #Send the server committed Q, g1, and g2
-            q_data = ['q', commitment, g1, g2]
-            txt = pickle.dumps(q_data)
-            s.sendall(txt)
-            s.sendall("THE END")
-=======
->>>>>>> 972e7637c5d25631e84f79266619dd770c56648d
 
 #Use the paramaters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
