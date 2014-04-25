@@ -75,9 +75,7 @@ while True:
     try:
         #Create the isomorphism alpha and the graph Q
         #this whole thing needs to be changed
-        alpha = Matrix(len(g2))
-        q = deepcopy(g2)
-        q.permute(alpha)
+        g2iso, q = g2.isomorphism()
 
         #Need to commit to Q here and create subgraph q'
         #Create a commitment of the graph Q#
