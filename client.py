@@ -43,7 +43,16 @@ if all(i is None for i in [v for k,v in args.iteritems()]):
     g2.write_to_file('g2.txt')
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
     #Continue with inputs
-    pass
+    #Need to finish this section here
+    g1 = Matrix(args['graph1'])
+    g1.write_to_file('g1.txt')
+
+    gprime = Matrix(args['subgraph'])
+    isomorphism = Matrix(args['isomorphism'])
+
+    g2 = Matrix(args['graph2'])
+    g2.write_to_file('g2.txt')
+
 elif not all(i is None for i in [args['graph1'], args['graph2']]):
     print('NP-Hard Problem You Will NOT Succeed....Good Luck....')
     sys.exit(1)
