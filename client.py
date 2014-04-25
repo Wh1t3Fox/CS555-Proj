@@ -46,9 +46,7 @@ def dfs(matrix, start_node):
             if c_node not in visited:
                 stack.append(c_node)
                 visited.add(c_node)
-
-
-
+                
 if __name__ == '__main__':
     if sys.version_info.major != 2:
         print('Must use python v2')
@@ -56,22 +54,24 @@ if __name__ == '__main__':
     
     s.connect((host,port))
     
-    g1 = Matrix('new',5)
+    g1 = Matrix(5)
     g1.write_to_file('g1.txt')
             
-    isofunction, gprime = g1.isomorphism()
+    ggpiso, gprime = g1.isomorphism()
             
     g2 = deepcopy(gprime)
-    g2.create_supergraph()
+    top, bottom = g2.supergraph()
     g2.write_to_file('g2.txt')
     
     while True:
         try:
             #this whole thing needs to be changed
+            g2qiso, q = g2.isomorphism()
+            """
             alpha = Matrix(len(g2))
             q = deepcopy(g2)
             q.permute(alpha)
-     
+            """
             #Need to commit to Q here and create subgraph q'
             ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2] 
             commitment = [] # this is the actual commitment 

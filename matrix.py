@@ -20,13 +20,11 @@ class Matrix:
     def __init__(self, filename=None, size=None):
         self.matrix = []
         if isinstance(filename, int):
-            self.create_permutation(filename)
+            self.create_matrix(filename)
         elif os.path.isfile(filename):
             self.create_from_file(filename)
         elif filename is 'empty':
             self.create_empty_matrix(size)
-        else: #this method of calling create_matrix is ugly, but works
-            self.create_matrix(size)
 
     """
     Returns a given row
@@ -76,11 +74,11 @@ class Matrix:
             self.matrix.append(row)
             
     """
-    Creates a supergraph
-    NEEDS TO BE MODIFIED TO RETURN TOP AND BOTTOM
+    Creates a supergraph, and returns top and bottom, which
+    refer to the number of rows added to the top and bottom, respectively
     """
 
-    def create_supergraph(self):
+    def supergraph(self):
         top = randint(1, 2) #number of rows to be added to the top and
                             #number of elements to be added to the front of
                             #existing lists
@@ -117,24 +115,18 @@ class Matrix:
                     if r is 1:
                         self.matrix[newrowlength-x-1][y] = r
                         self.matrix[y][newrowlength-x-1] = r
-        
+        return top, bottom
+       
     """
     Creates an isomorphic graph, returns the isomorphism function in
     dictionary form and the isomorphism graph as a new Matrix object
     """
     def isomorphism(self):
-        orig_graph = {}
+        orig_graph = matrix_to_dict(self)
         isofunction = {}
         new_graph = {}
         temp = range(len(self.matrix))
-        #fill orig_graph dictionary with nodes as keys and
-        #lists of the nodes they are connected to as the values
-        for index, i in enumerate(self.matrix):
-            x = []
-            for index2, j in enumerate(i):
-                if j is 1:
-                    x.append(index2)
-            orig_graph[index] = x
+
         #create isomorphism function by pairing each node
         #with a random node. these pairs are put in the dictionary
         #isofunction
@@ -156,12 +148,8 @@ class Matrix:
                 if key is key2:
                     new_graph[isofunction[key2]] = orig_graph[key]
                     break
-        #Turn new_graph dictionary into Matrix object, and
-        #return the new matrix
-        new_matrix = Matrix('empty', len(self.matrix))
-        for key, value in new_graph.iteritems():
-            for i in value:
-                new_matrix[key][i]=1
+
+        new_matrix = dict_to_matrix(new_graph)
         return isofunction, new_matrix
     
     """
@@ -269,3 +257,58 @@ class Matrix:
                         fw.write('0 ')
                 fw.write('\n')
 
+
+def matrix_to_dict(m):
+    #fill graphdict dictionary with nodes as keys and
+    #lists of the nodes they are connected to as the values
+    graphdict = {}
+    for index, i in enumerate(m):
+        x = []
+        for index2, j in enumerate(i):
+            if j is 1:
+                x.append(index2)
+        graphdict[index] = x
+    return graphdict
+
+def dict_to_matrix(new_graph):
+    #Turn new_graph dictionary into Matrix object, and
+    #return the new matrix
+    new_matrix = Matrix('empty', len(new_graph))
+    for key, value in new_graph.iteritems():
+        for i in value:
+            new_matrix[key][i]=1
+    return new_matrix
+
+def combine_isos(q, ggpiso, g2qiso, top, bottom):
+    qp = matrix_to_dict(q)
+    ggpiso = deepcopy(ggpiso)
+    g2qiso = deepcopy(g2qiso)
+    newiso = {}
+    todelete = []
+    for x in xrange(top):
+        todelete.append(g2qiso[x])
+    for x in xrange(bottom):
+        todelete.append(g2qiso[len(g2qiso)-x-1])
+    for key, value in qp.items():
+	for index, i in reversed(list(enumerate(value))):
+		for j in dlist:
+			if i is j:
+				del qp[key][index]
+
+"""
+def combine_isos(ggpiso, g2qiso, top, bottom):
+    ggpiso = deepcopy(ggpiso)
+    g2qiso = deepcopy(g2qiso)
+    gpqpiso = deepcopy(g2qiso)
+    newiso = {}
+    for x in xrange(top):
+        del gpqpiso[x]
+    for x in xrange(bottom):
+        del gpqpiso[len(gpqpiso)+top-1]
+    for key in ggpiso.iterkeys():
+        ggpiso[key] = ggpiso[key] + top
+        #ggpiso[key+top] = ggpiso.pop(key)
+    for key in ggpiso.iterkeys():
+        newiso[key] = gpqpiso[ggpiso[key]]
+    return newiso
+"""
