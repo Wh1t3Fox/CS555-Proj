@@ -32,20 +32,24 @@ parser.add_argument('-s','--subgraph', help='Name of the adjacency matrix file f
 parser.add_argument('-i','--isomorphism', help='Name of the adjacency matrix file for the isomorphism', required=False)
 args = vars(parser.parse_args())
 
-if args['graph1']:
-    g1 = Matrix(args['graph1'])
-else:
+if all(i is None for i in [v for k,v in args.iteritems()]):
     g1 = Matrix('new',5)
     g1.write_to_file('g1.txt')
-    
-isofunction, gprime = g1.isomorphism()
 
-if args['graph2']:
-    g2 = Matrix(args['graph2'])
-else:
+    isofunction, gprime = g1.isomorphism()
+
     g2 = deepcopy(gprime)
     g2.create_supergraph()
     g2.write_to_file('g2.txt')
+elif all(i is not None for i in [v for k,v in args.iteritems()]):
+    #Continue with inputs
+    pass
+elif not all(i is None for i in [args['graph1'], args['graph2']]):
+    print('NP-Hard Problem You Will NOT Succeed....Good Luck....')
+    sys.exit(1)
+else:
+    print('[-] NOT ENOUGH PARAMETERS')
+    sys.exit(1)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host,port))
