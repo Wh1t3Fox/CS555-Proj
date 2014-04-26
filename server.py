@@ -97,7 +97,9 @@ def handler(client):
                 g1dic = matrix_to_dict(g1)
                 qP = translate(g1dic, pi, len(g2))
                 qPm = dict_to_matrix_x(qP, len(g2))
-                #insert checking committed q here
+                if validate_q(subgraph, rand_val):
+                    client.sendall("COMITTED Q DOES NOT MATCH\n")
+                    break
                 if not qPm.equals(subgraph):
                    client.send("INVALID LOGIN ATTEMPT")
                    break
