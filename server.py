@@ -13,8 +13,9 @@ import sys
 import socket
 import pickle
 import hashlib
+import time
 from commitment import *
-from matrix import Matrix
+from matrix import *
 from random import randint
 from copy import deepcopy
 import threading
@@ -74,32 +75,36 @@ def handler(client):
             #If receiving alpha and Q
             #store the values of alpha, q, and the random values to validate the commitment
             elif lst[0] == 1:
+                print("RECEIVED ALPHA")
                 alpha, q, rand_val = lst[1], lst[2], lst[3]
                 #validate the graph q with the commitment
                 if validate_q(q, rand_val):
                     client.sendall("COMITTED Q DOES NOT MATCH\n")
                     break
                 m = deepcopy(g2)
-                m.permute(alpha)
+                new_q = m.applyIsomorphism(alpha)
                 #check to make sure g2 + alpha = Q
-                if not m.equals(q):
+                if not new_q.equals(q):
                     client.sendall("INVALID LOGIN ATTEMPT\n")
                     break
 
             #If receiving pi and Q'
             elif lst[0] == 2:
-                print(lst)
+                print("RECEIVED PI")
+                pi, subgraph, rand_val = lst[1], lst[2], lst[3]
+                g1dic = matrix_to_dict(g1)
+                qP = translate(g1dic, pi, len(g2))
+                qPm = dict_to_matrix_x(qP, len(g2))
                 #insert checking committed q here
-                #pi, subgraph = lst[1], lst[2]
-                #m = deepcopy(g1)
-                #m.permute(pi)
-                #if not m.equals(subgraph):
-                #   client.send("INVALID LOGIN ATTEMPT")
-                #   break
+                if not qPm.equals(subgraph):
+                   client.send("INVALID LOGIN ATTEMPT")
+                   break
 
             #After x num of successful rounds exit
-            if num_rounds == 7:
+            if num_rounds >= 7:
+                print("LOGGED IN")
                 client.sendall("SUCCESSFUL LOGIN\n")
+                time.sleep(2)
                 client.close()
                 break
             else:
