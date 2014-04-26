@@ -61,8 +61,12 @@ We are given two graphs G1 and G2.
     
 ####To Run:
 - Launch the server file first
+    python server.py
 - Launch the client next
    - if no arguments are passed, G1, G prime, the isomorphism, and G2 will be randomly created 
+    python client.py
+or
+    python client.py -g1 g1.txt -g2 g2.txt -s gprime.txt -i phi.txt
      and written to file
    - you can also pass these files as arguments
    
