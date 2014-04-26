@@ -36,7 +36,7 @@ args = vars(parser.parse_args())
 
 #If no arguments where supplied, generate our own graphs
 if all(i is None for i in [v for k,v in args.iteritems()]):
-    g1 = Matrix(200)
+    g1 = Matrix(150)
     g1.write_to_file('g1.txt')
 
     phi, gprime = g1.isomorphism()
