@@ -41,7 +41,7 @@ if all(i is None for i in [v for k,v in args.iteritems()]):
 
     phi, gprime = g1.isomorphism()
     gprime.write_to_file('gprime.txt')
-    
+
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
     g2.write_to_file('g2.txt')
@@ -74,11 +74,11 @@ while True:
     try:
         #Create the isomorphism alpha and the graph Q
         #this whole thing needs to be changed
-        alpha, q = g2.isomorphism()        
+        alpha, q = g2.isomorphism()
         pi = genPi(phi, alpha, top, bottom)
         qPr = qPrime(q, alpha, top, bottom)
         qPrM = dict_to_matrix_x(qPr, len(q))
-        
+
         #Need to commit to Q here and create subgraph q'
         #Create a commitment of the graph Q#
         ret = bitCommit_HASH_SHA1_list_bo(q, 16)  # ret = [commitments, Random 1, Random 2]
@@ -99,9 +99,11 @@ while True:
         print("")
 
         #Exit if the protocol fails or succeeds
-        if data.find('INVALID LOGIN ATTEMPT') != -1:
+        if 'INVALID LOGIN ATTEMPT' in r:
+            print("INVALID LOGIN")
             break
-        elif data.find('SUCCESSFUL LOGIN') != -1:
+        elif 'SUCCESSFUL LOGIN' in r:
+            print("SUCCESSFUL LOGIN")
             break
 
         #Just a pause between each round

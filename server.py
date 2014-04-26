@@ -107,7 +107,7 @@ def handler(client):
                 print("COMMITTED Q IS VERIFIED")
                 print("CALCULATING G1 -> pi = Q'")
                 if not qPm.equals(subgraph):
-                   client.send("INVALID LOGIN ATTEMPT")
+                   client.send("INVALID LOGIN ATTEMPT\n")
                    break
                 print("CALCULATED Q' IS THE SAME AS SENT Q'")
 
@@ -115,9 +115,6 @@ def handler(client):
             if num_rounds >= 7:
                 print("LOGGED IN")
                 client.sendall("SUCCESSFUL LOGIN\n")
-                time.sleep(1)
-                client.close()
-                break
             else:
                 #Randomly request either, alpha and Q or pi and Q'
                 if randint(1,2) == 1:
