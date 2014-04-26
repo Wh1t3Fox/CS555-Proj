@@ -1,8 +1,6 @@
 Zero-Knowledge Subgraph Isomorphism
 ===================================
 <br/>
-###Note:
-So far we do not need the graphing tool module
 <br />
 ##Problem
  Given a graph G = (V, E), a graph G′ = (V′, E′) is said to be a subgraph of G if and only if V′ is a subset of V , E′ is a subset of E, and for every edge (i, j) in E′ both i and j are in V′. The subgraph isomorphism problem is: “Given two graphs G1 and G2, ﬁnd an isomorphism between G1 and a subgraph of G2 if such an isomorphism exists”. Subgraph isomorphism seems to be more diﬃcult than graph isomorphism because it involves ﬁguring out which subgraph of G2, as well as an isomorphism (in fact subgraph isomorphism is NP-complete, whereas graph isomorphism is not known to be NP-complete although there is no known polynomial time algorithm for it). Design a zero-knowledge interactive protocol for subgraph isomorphism. That is, assume that both Peggy and Victor know G1 and G2, but Peggy also knows a subgraph G′ of G2 and an isomorphism between G′ and G1. Your protocol must convince Victor of Peggy’s knowledge without making it any easier for Victor to ﬁnd either G′ or its isomorphism with G1. Also give a noninteractive version of your protocol.
@@ -49,9 +47,7 @@ problem), but it could no longer be called zero-knowledge.
 
 
 
-
-
-####Simplified Version, hopefully it is correct.
+####Simplified Version
 We are given two graphs G1 and G2.
 - Randomly permute G2 to get a new graph which we save as Q. The permutation is saved as α.
 - Obtain a subgraph of Q using α and save it as Q'. This is based off of G' (a subgraph of G2)
@@ -60,19 +56,3 @@ We are given two graphs G1 and G2.
 - Victor either asks for:
     1. α and the permutation Q
     2. π and the subgraph Q'
-
-
-####To-Do List
-- Generate committed Q 
-- Generate subgraph Q'
-- Generate subgraph G'
-- Obtain pi from G1 and Q' (trivial)
-- Check for validity between committed Q and transferred Q on server
-- Client send data for part 2
-- Server verify information of part 2
-
-######Resources
-- [Isomorphic Graph Examples](http://www.cs.laurentian.ca/jdompierre/html/MATH2056E_W2011/cours/s9.3_graph_isomorphism_BW.pdf)
-- [Ullmann's Algorithm PPT](http://oldwww.prip.tuwien.ac.at/teaching/ss/strupr/vogl.pdf)
-- [Ullmann Algorithm](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.870&rep=rep1&type=pdf)
-
