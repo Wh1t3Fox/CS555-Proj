@@ -56,3 +56,13 @@ We are given two graphs G1 and G2.
 - Victor either asks for:
     1. α and the permutation Q
     2. π and the subgraph Q'
+    
+    
+    
+####To Run:
+- Launch the server file first
+- Launch the client next
+   - if no arguments are passed, G1, G prime, the isomorphism, and G2 will be randomly created 
+     and written to file
+   - you can also pass these files as arguments
+   

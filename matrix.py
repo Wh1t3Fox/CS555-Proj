@@ -10,7 +10,7 @@ Members:
 from random import randint
 import os
 import hashlib
-from copy import deepcopy #this is only here for testing
+from copy import deepcopy
 
 class Matrix:
 
@@ -302,7 +302,6 @@ def translate(dic, iso, size):
     for v, k in iso.iteritems():
         copy[k] = dic[v]
     for k, v in copy.iteritems():
-        #print v
         copy[k] = sorted([iso[x] for x in v])
     l = range(size)
     for x in l:

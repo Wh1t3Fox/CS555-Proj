@@ -29,7 +29,7 @@ def bitCommit_HASH_SHA1_list( random1List, random2List, bitList ):
     Commitment function follows the scheme: H(Random-1, Random-2, Bit), Random-2
     This function is a non-interactive scheme, Alice creates both randoms, does not wait for Bob to send randoms
     parameters:  bitList = 2D list of bits in int/string values, aka the matrix
-             randSize = in bytes, the size of the random values used for the committment
+             randSize = in bytes, the size of the random values used for the commitment
     Note: the Matrix passed must be of form row size = column size ; or else function will blow up
 '''
 def bitCommit_HASH_SHA1_list_bo(bitList, randSize):
@@ -51,9 +51,9 @@ def bitCommit_HASH_SHA1_list_bo(bitList, randSize):
 
 
 '''
-    returns a 2D matrix of random value for the bit committment, this function is called by bitCommit_HASH_SHA1_list_bo()
-    parameters: size = row size(or column size) or matrix will be commiting to
-            randValueSize = the size(in bits) of the random values used in the committment
+    returns a 2D matrix of random value for the bit commitment, this function is called by bitCommit_HASH_SHA1_list_bo()
+    parameters: size = row size(or column size) or matrix will be committing to
+            randValueSize = the size(in bits) of the random values used in the commitment
 '''
 def getRandMatrix(size, randValueSize):
     rand= []
@@ -63,7 +63,3 @@ def getRandMatrix(size, randValueSize):
             row.append(os.urandom(randValueSize))
         rand.append(row)
     return rand
-
-
-
-

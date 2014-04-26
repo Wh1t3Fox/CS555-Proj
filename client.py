@@ -46,7 +46,7 @@ if all(i is None for i in [v for k,v in args.iteritems()]):
     top, bottom = g2.supergraph()
     g2.write_to_file('g2.txt')
 
-#Use the paramaters given for the protocol
+#Use the parameters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
     #Need to finish this section here
     g1 = Matrix(args['graph1'])
@@ -73,7 +73,6 @@ s.connect((host,port))
 while True:
     try:
         #Create the isomorphism alpha and the graph Q
-        #this whole thing needs to be changed
         alpha, q = g2.isomorphism()
         pi = genPi(phi, alpha, top, bottom)
         qPr = qPrime(q, alpha, top, bottom)

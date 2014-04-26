@@ -63,7 +63,7 @@ def handler(client):
             if not data:
                 break
 
-            #Conver the byte stream back into a list
+            #Convert the byte stream back into a list
             lst = pickle.loads(data)
 
             #If we are receiving q save the commitment
@@ -156,4 +156,3 @@ if __name__ == '__main__':
             t.start()
         except:
             break
-
