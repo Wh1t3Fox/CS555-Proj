@@ -20,7 +20,6 @@ from copy import deepcopy
 
 host = '127.0.0.1'
 port = 44444
-arguments = False
 
 #Exit if using Python 3.x
 if sys.version_info.major != 2:
@@ -38,17 +37,17 @@ args = vars(parser.parse_args())
 #If no arguments where supplied, generate our own graphs
 if all(i is None for i in [v for k,v in args.iteritems()]):
     g1 = Matrix(5)
-    g1.write_to_file('g1.txt')
+    #g1.write_to_file('g1.txt')
 
     phi, gprime = g1.isomorphism()
-
+    #gprime.write_to_file('gprime.txt')
+    
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
-    g2.write_to_file('g2.txt')
+    #g2.write_to_file('g2.txt')
 
 #Use the paramaters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
-    arguments = True
     #Need to finish this section here
     g1 = Matrix(args['graph1'])
 
@@ -75,9 +74,9 @@ while True:
     try:
         #Create the isomorphism alpha and the graph Q
         #this whole thing needs to be changed
-        alpha, q = g2.isomorphism()
+        alpha, q = g2.isomorphism()        
         pi = genPi(phi, alpha, top, bottom)
-        qPr = qPrime(q, phi, alpha, top, bottom)
+        qPr = qPrime(q, alpha, top, bottom)
         qPrM = dict_to_matrix_x(qPr, len(q))
         
         #Need to commit to Q here and create subgraph q'

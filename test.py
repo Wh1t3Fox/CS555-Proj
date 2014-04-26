@@ -31,7 +31,7 @@ qP = translate(g1dic, pi, len(g2))
 qPm = dict_to_matrix_x(qP, len(g2))
 #qPm.write_to_file('qPrime-g1.txt')
 
-qPr = qPrime(q, alpha, top, bottom, qP)
+qPr = qPrime(q, alpha, top, bottom)
 qPrM = dict_to_matrix_x(qPr, len(q))
 #for col, y in enumerate(qPrM[0]):
 #    if y is 'x':
