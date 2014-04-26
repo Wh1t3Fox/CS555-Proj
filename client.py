@@ -38,26 +38,24 @@ args = vars(parser.parse_args())
 #If no arguments where supplied, generate our own graphs
 if all(i is None for i in [v for k,v in args.iteritems()]):
     g1 = Matrix(5)
-    #g1.write_to_file('g1.txt')
+    g1.write_to_file('g1.txt')
 
     phi, gprime = g1.isomorphism()
 
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
-    #g2.write_to_file('g2.txt')
+    g2.write_to_file('g2.txt')
 
 #Use the paramaters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
     arguments = True
     #Need to finish this section here
     g1 = Matrix(args['graph1'])
-    #g1.write_to_file('g1.txt')
 
     gprime = Matrix(args['subgraph'])
     phi = matrix_to_dict(Matrix(args['isomorphism']))
 
     g2 = Matrix(args['graph2'])
-    #g2.write_to_file('g2.txt')
 
 #If G1 and G2 were given but not all the arguments exit
 elif not all(i is None for i in [args['graph1'], args['graph2']]):
