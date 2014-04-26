@@ -17,6 +17,7 @@ import time
 from commitment import *
 from matrix import *
 from random import randint
+from os import urandom
 from copy import deepcopy
 import threading
 
@@ -117,7 +118,7 @@ def handler(client):
                 client.sendall("SUCCESSFUL LOGIN\n")
             else:
                 #Randomly request either, alpha and Q or pi and Q'
-                if randint(1,2) == 1:
+                if int(bin(int(urandom(1).encode('hex'), 16))[-1]) == 1:
                     #alpha and the permutation Q
                     msg = 'Request for alpha and Q\n'
                 else:
