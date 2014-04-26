@@ -11,7 +11,6 @@ from copy import deepcopy
 
 def genQprime(phi, alpha, top, bottom):
     phi = deepcopy(phi)
-    #alpha = deepcopy(alpha)
     alphaPrime = deepcopy(alpha)
     qPrime = {}
     for x in xrange(top):
@@ -26,7 +25,7 @@ def genQprime(phi, alpha, top, bottom):
     # of q prime, need to create matrix
     return qPrime
 
-g1 = Matrix(250)
+g1 = Matrix(10003)
 g1.write_to_file('g1-300.txt')
 phi, gprime = g1.isomorphism()
 gprime.write_to_file('gprime-300.txt')
@@ -76,15 +75,18 @@ print ""
 print "Q prime, from Q"
 qPr = qPrime(q, phi, alpha, top, bottom)
 qPrM = dict_to_matrix_x(qPr, len(q))
-qPrM.write_to_file('qPrime-q.txt')
+for col, y in enumerate(qPrM[0]):
+    if y is 'x':
+        print y
+        qPrM.set_col(col, ['x' for y in range(len(qPrM))])
 #print qPrM
 
 print "Q prime dictionary, from G1"
-print qP
+#print qP
 print ""
 
 print "Q prime dictionary, from Q"
-print qPr
+#print qPr
 print ""
 
 print "Are the two Q Primes the same?"
