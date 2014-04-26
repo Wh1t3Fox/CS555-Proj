@@ -15,7 +15,7 @@ from copy import deepcopy #this is only here for testing
 class Matrix:
 
     """
-    Initalize the matrix
+    Initialize the matrix
     """
     def __init__(self, filename=None, size=None):
         self.matrix = []
@@ -25,6 +25,8 @@ class Matrix:
             self.create_from_file(filename)
         elif filename is 'empty':
             self.create_empty_matrix(size)
+        elif filename is 'x':
+            self.create_x_matrix(size)
 
     """
     Returns a given row
@@ -73,16 +75,21 @@ class Matrix:
             row = [0 for y in xrange(size)]
             self.matrix.append(row)
             
+    def create_x_matrix(self, size):
+        for i in xrange(size):
+            row = ['x' for y in xrange(size)]
+            self.matrix.append(row)
+            
     """
     Creates a supergraph, and returns top and bottom, which
     refer to the number of rows added to the top and bottom, respectively
     """
 
     def supergraph(self):
-        top = randint(1, 2) #number of rows to be added to the top and
+        top = randint(10, 20) #number of rows to be added to the top and
                             #number of elements to be added to the front of
                             #existing lists
-        bottom = randint(1, 2) #number of rows to be added to the bottom and
+        bottom = randint(10, 20) #number of rows to be added to the bottom and
                                #number of elements to be added to the back of
                                #existing lists
         newrowlength = len(self.matrix[0]) + top + bottom
@@ -137,6 +144,34 @@ class Matrix:
         #the isomorphism
         for key, value in orig_graph.iteritems():
             for index, i in enumerate(value):
+                orig_graph[key][index] = isofunction[i]
+                """
+                for key2 in isofunction.iterkeys():
+                    if i is key2:
+                        orig_graph[key][index] = isofunction[key2]
+                        break
+                """
+        #Apply the isomorphism to the keys in orig_graph,
+        #storing the resulting full isomorphism in new_graph
+
+        for key in orig_graph.iterkeys():
+            new_graph[isofunction[key]] = orig_graph[key]
+
+        new_matrix = dict_to_matrix(new_graph)
+        return isofunction, new_matrix
+        
+    """
+    Permute the current graph with the
+    specified permutation matrix
+    """
+    def applyIsomorphism(self, isofunction):
+        orig_graph = matrix_to_dict(self)
+        new_graph = {}
+
+        #modify orig_graph values (NOT keys) by applying
+        #the isomorphism
+        for key, value in orig_graph.iteritems():
+            for index, i in enumerate(value):
                 for key2 in isofunction.iterkeys():
                     if i is key2:
                         orig_graph[key][index] = isofunction[key2]
@@ -144,13 +179,29 @@ class Matrix:
         #Apply the isomorphism to the keys in orig_graph,
         #storing the resulting full isomorphism in new_graph
         for key in orig_graph.iterkeys():
-            for key2 in isofunction.iterkeys():
-                if key is key2:
-                    new_graph[isofunction[key2]] = orig_graph[key]
-                    break
+            new_graph[isofunction[key]] = orig_graph[key]
 
         new_matrix = dict_to_matrix(new_graph)
-        return isofunction, new_matrix
+        return new_matrix
+        
+    def applySubIsomorphism(self, isofunction, size):
+        graph = Matrix('empty', size)
+        orig_graph = matrix_to_dict(self) # dictionary of g1
+        qPrime = self.applyIsomorphism(isofunction)
+        print "qPrime", qPrime
+        l = range(size)
+        for value in isofunction.itervalues():
+            index = l.index(value)
+            l.pop(index)
+        print "l", l
+        for x in l:
+            print x
+            graph.set_col(x, ['x' for y in range(size)])
+            graph[x] = ['x' for y in range(size)]
+        #new_matrix = dict_to_matrix(graph)
+        return graph
+            
+        
     
     """
     Creates a matrix from an adjacency matrix file
@@ -193,14 +244,10 @@ class Matrix:
     def rotate_180(self):
         self.matrix = [i[::-1] for i in self.matrix[::-1]]
 
-    """
-    Permute the currect graph with the
-    specified permutation matrix
-    """
-    def permute(self, matrix):
-        order = [pos for row in matrix for pos,item in enumerate(row) if item is 1]
-        tmp = self.matrix
-        self.matrix = [tmp[i] for i in order]
+    #def permute(self, matrix):
+        #order = [pos for row in matrix for pos,item in enumerate(row) if item is 1]
+        #tmp = self.matrix
+        #self.matrix = [tmp[i] for i in order]
 
     """
     Create matrix file that is the permutation
@@ -253,8 +300,10 @@ class Matrix:
                 for j in i:
                     if j is 1:
                         fw.write('1 ')
-                    else:
+                    elif j is 0:
                         fw.write('0 ')
+                    else:
+                        fw.write('x ')
                 fw.write('\n')
 
 
@@ -274,14 +323,30 @@ def dict_to_matrix(new_graph):
     #Turn new_graph dictionary into Matrix object, and
     #return the new matrix
     new_matrix = Matrix('empty', len(new_graph))
+    
     for key, value in new_graph.iteritems():
         for i in value:
             new_matrix[key][i]=1
+            
+    return new_matrix
+    
+def dict_to_matrix_x(new_graph, size):
+    #Turn new_graph dictionary into Matrix object, and
+    #return the new matrix
+    new_matrix = Matrix('empty', len(new_graph))
+    
+    for key, value in new_graph.iteritems():
+        if not value:
+            new_matrix.set_col(key, ['x' for y in range(size)])
+            new_matrix[key] = ['x' for y in range(size)]
+        else:
+            for i in value:
+                new_matrix[key][i]=1
+            
     return new_matrix
 
-def combine_isos(q, ggpiso, g2qiso, top, bottom):
+def qPrime(q, ggpiso, g2qiso, top, bottom):
     qp = matrix_to_dict(q)
-    ggpiso = deepcopy(ggpiso)
     g2qiso = deepcopy(g2qiso)
     newiso = {}
     todelete = []
@@ -289,12 +354,35 @@ def combine_isos(q, ggpiso, g2qiso, top, bottom):
         todelete.append(g2qiso[x])
     for x in xrange(bottom):
         todelete.append(g2qiso[len(g2qiso)-x-1])
-    for key, value in qp.items():
-	for index, i in reversed(list(enumerate(value))):
-		for j in dlist:
-			if i is j:
-				del qp[key][index]
+    for key, value in qp.iteritems():
+        for index, i in reversed(list(enumerate(value))):
+            for j in todelete:
+                if i is j:
+                    del qp[key][index]
+    for x in todelete:
+        qp[x] = []
+    
+    return qp
 
+
+"""
+Takes G1 and pi as arguments, returns Q' for verifier to use
+"""
+
+def translate(dic, iso, size):
+    copy = {}
+    for v, k in iso.iteritems():
+        copy[k] = dic[v]
+    for k, v in copy.iteritems():
+        #print v
+        copy[k] = sorted([iso[x] for x in v])
+    l = range(size)
+    for x in l:
+        if x not in copy:
+            copy[x] = []
+    return copy
+                    
+                    
 """
 def combine_isos(ggpiso, g2qiso, top, bottom):
     ggpiso = deepcopy(ggpiso)
