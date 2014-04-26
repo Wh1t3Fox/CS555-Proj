@@ -345,23 +345,18 @@ def dict_to_matrix_x(new_graph, size):
             
     return new_matrix
 
-def qPrime(q, ggpiso, g2qiso, top, bottom):
+def qPrime(q, g2qiso, top, bottom, qp_o):
     qp = matrix_to_dict(q)
-    g2qiso = deepcopy(g2qiso)
-    newiso = {}
     todelete = []
     for x in xrange(top):
         todelete.append(g2qiso[x])
     for x in xrange(bottom):
         todelete.append(g2qiso[len(g2qiso)-x-1])
+    print todelete
     for key, value in qp.iteritems():
-        for index, i in reversed(list(enumerate(value))):
-            for j in todelete:
-                if i is j:
-                    del qp[key][index]
+        qp[key] = [x for x in value if x not in todelete]
     for x in todelete:
         qp[x] = []
-    
     return qp
 
     

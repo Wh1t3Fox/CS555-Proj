@@ -11,13 +11,14 @@ from copy import deepcopy
 
 
 
-g1 = Matrix(103)
+g1 = Matrix(500)
 #g1.write_to_file('g1-300.txt')
 phi, gprime = g1.isomorphism()
 #gprime.write_to_file('gprime-300.txt')
 g2 = deepcopy(gprime)
 top, bottom = g2.supergraph()
 #g2.write_to_file('g2-300.txt')
+print "TOP ", top
 
 alpha, q = g2.isomorphism()
 #q.write_to_file('q-300.txt')
@@ -30,11 +31,11 @@ qP = translate(g1dic, pi, len(g2))
 qPm = dict_to_matrix_x(qP, len(g2))
 #qPm.write_to_file('qPrime-g1.txt')
 
-qPr = qPrime(q, phi, alpha, top, bottom)
+qPr = qPrime(q, alpha, top, bottom, qP)
 qPrM = dict_to_matrix_x(qPr, len(q))
-for col, y in enumerate(qPrM[0]):
-    if y is 'x':
-        qPrM.set_col(col, ['x' for y in range(len(qPrM))])
+#for col, y in enumerate(qPrM[0]):
+#    if y is 'x':
+#        qPrM.set_col(col, ['x' for y in range(len(qPrM))])
         
 #print "g1"
 #print g1
