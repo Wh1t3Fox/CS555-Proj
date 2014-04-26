@@ -53,7 +53,7 @@ def validate_q(q, rands):
 
 #Handler for the thread
 def handler(client):
-    num_rounds = 0
+    num_rounds = 1
     while True:
         try:
             #Store the data received
