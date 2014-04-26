@@ -58,7 +58,7 @@ elif all(i is not None for i in [v for k,v in args.iteritems()]):
 
 #If G1 and G2 were given but not all the arguments exit
 elif not all(i is None for i in [args['graph1'], args['graph2']]):
-    print('NP-Hard Problem You Will NOT Succeed....Good Luck....')
+    print('NP-Hard Problem, Need subgraph and isomorphism')
     sys.exit(1)
 #Exit if there are not enough parameters
 else:
