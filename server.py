@@ -46,7 +46,9 @@ def read_data(sock, buffer_size=4096):
 def validate_q(q, rands):
     for i in xrange(len(q)):
         for j in xrange(len(q)):
-            if not hashlib.sha1(rands[i][j] + committed_q[1][i][j] + str(q[i][j])).hexdigest() == committed_q[0][i][j]:
+            if q[i][j] == 'x':
+                pass
+            elif not hashlib.sha1(rands[i][j] + committed_q[1][i][j] + str(q[i][j])).hexdigest() == committed_q[0][i][j]:
                 return False
 
 #Handler for the thread
