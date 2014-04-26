@@ -11,6 +11,7 @@ from random import randint
 import os
 import hashlib
 from copy import deepcopy
+import json
 
 class Matrix:
 
@@ -308,3 +309,28 @@ def translate(dic, iso, size):
         if x not in copy:
             copy[x] = []
     return copy
+
+"""
+Writes an isomorphic function to file
+"""
+def iso_to_file(iso, fileName, top, bottom):
+    with open(fileName, 'w') as f:
+        f.write(str(top) + "\n" + str(bottom) + "\n")
+        for key, values in iso.iteritems():
+            f.write(str(key) + " " + str(values) + "\n")
+
+
+"""
+Creates a dictionary of an isomorphism
+from file
+"""
+def iso_from_file(fileName):
+    iso = {}
+    with open(fileName, 'r') as f:
+        top = int(f.readline().replace("\n", ""))
+        bottom = int(f.readline().replace("\n",""))
+        for line in f:
+            line = line.replace("\n", "")
+            a = line.split(" ")
+            iso[int(a[0])] = int(a[1])
+    return iso, top, bottom

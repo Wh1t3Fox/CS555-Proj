@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-g1','--graph1', help='Name of the adjacency matrix file for G1', required=False)
 parser.add_argument('-g2','--graph2', help='Name of the adjacency matrix file for G2', required=False)
 parser.add_argument('-s','--subgraph', help='Name of the adjacency matrix file for the subgraph', required=False)
-parser.add_argument('-i','--isomorphism', help='Name of the adjacency matrix file for the isomorphism', required=False)
+parser.add_argument('-i','--isomorphism', help='Name of the isomorphism matrix file for the isomorphism', required=False)
 args = vars(parser.parse_args())
 
 #If no arguments where supplied, generate our own graphs
@@ -40,19 +40,20 @@ if all(i is None for i in [v for k,v in args.iteritems()]):
     g1.write_to_file('g1.txt')
 
     phi, gprime = g1.isomorphism()
+    
     gprime.write_to_file('gprime.txt')
 
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
+    iso_to_file(phi, 'phi.txt', top, bottom)
     g2.write_to_file('g2.txt')
 
 #Use the parameters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
-    #Need to finish this section here
     g1 = Matrix(args['graph1'])
 
     gprime = Matrix(args['subgraph'])
-    phi = matrix_to_dict(Matrix(args['isomorphism']))
+    phi, top, bottom = iso_from_file(args['isomorphism'])
 
     g2 = Matrix(args['graph2'])
 
