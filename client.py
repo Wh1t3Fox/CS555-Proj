@@ -36,15 +36,15 @@ args = vars(parser.parse_args())
 
 #If no arguments where supplied, generate our own graphs
 if all(i is None for i in [v for k,v in args.iteritems()]):
-    g1 = Matrix(5)
-    #g1.write_to_file('g1.txt')
+    g1 = Matrix(200)
+    g1.write_to_file('g1.txt')
 
     phi, gprime = g1.isomorphism()
-    #gprime.write_to_file('gprime.txt')
+    gprime.write_to_file('gprime.txt')
     
     g2 = deepcopy(gprime)
     top, bottom = g2.supergraph()
-    #g2.write_to_file('g2.txt')
+    g2.write_to_file('g2.txt')
 
 #Use the paramaters given for the protocol
 elif all(i is not None for i in [v for k,v in args.iteritems()]):
@@ -81,7 +81,7 @@ while True:
         
         #Need to commit to Q here and create subgraph q'
         #Create a commitment of the graph Q#
-        ret = bitCommit_HASH_SHA1_list_bo(q, 128)  # ret = [commitments, Random 1, Random 2]
+        ret = bitCommit_HASH_SHA1_list_bo(q, 16)  # ret = [commitments, Random 1, Random 2]
         commitment = [] # this is the actual commitment
         commitment.append(ret[0])  # ret[0] is a matrix of  H(Random 1, Random 2, bit) values
         commitment.append(ret[2])  # ret[2] is the matrix of Random 2 's
@@ -108,7 +108,7 @@ while True:
         raw_input("Press enter to continue...")
 
         #Send the server alpha and Q
-        if data.find('alpha and Graph Q') != -1:
+        if data.find('alpha and Q') != -1:
            #for verification send ret[1] so the server can then check the commitment
            info = [1, alpha, q, ret[1]]
            msg = pickle.dumps(info)
@@ -116,7 +116,7 @@ while True:
            s.sendall("THE END")
 
        #Send the server pi and Q'
-        elif data.find('pi and the subgraph') != -1:
+        elif data.find('pi and the subgraph Q prime') != -1:
             info = [2, pi, qPrM, ret[1]]
             msg = pickle.dumps(info)
             s.sendall(msg)

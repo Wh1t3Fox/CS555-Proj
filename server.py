@@ -72,6 +72,7 @@ def handler(client):
                 global g2
                 global committed_q
                 committed_q, g1, g2= lst[1], lst[2], lst[3]
+                print("RECEIVED G1, G2, AND COMMITTED Q")
                 num_rounds -= 1
 
             #If receiving alpha and Q
@@ -81,14 +82,17 @@ def handler(client):
                 alpha, q, rand_val = lst[1], lst[2], lst[3]
                 #validate the graph q with the commitment
                 if validate_q(q, rand_val):
-                    client.sendall("COMITTED Q DOES NOT MATCH\n")
+                    client.sendall("COMMITTED Q DOES NOT MATCH\n")
                     break
+                print("COMMITTED Q IS VERIFIED")
                 m = deepcopy(g2)
+                print("CALCULATING G2 -> alpha = Q")
                 new_q = m.applyIsomorphism(alpha)
                 #check to make sure g2 + alpha = Q
                 if not new_q.equals(q):
                     client.sendall("INVALID LOGIN ATTEMPT\n")
                     break
+                print("CALCULATED Q IS THE SAME AS SENT Q")
 
             #If receiving pi and Q'
             elif lst[0] == 2:
@@ -98,27 +102,30 @@ def handler(client):
                 qP = translate(g1dic, pi, len(g2))
                 qPm = dict_to_matrix_x(qP, len(g2))
                 if validate_q(subgraph, rand_val):
-                    client.sendall("COMITTED Q DOES NOT MATCH\n")
+                    client.sendall("COMMITTED Q DOES NOT MATCH\n")
                     break
+                print("COMMITTED Q IS VERIFIED")
+                print("CALCULATING G1 -> pi = Q'")
                 if not qPm.equals(subgraph):
                    client.send("INVALID LOGIN ATTEMPT")
                    break
+                print("CALCULATED Q' IS THE SAME AS SENT Q'")
 
             #After x num of successful rounds exit
             if num_rounds >= 7:
                 print("LOGGED IN")
                 client.sendall("SUCCESSFUL LOGIN\n")
-                time.sleep(2)
+                time.sleep(1)
                 client.close()
                 break
             else:
                 #Randomly request either, alpha and Q or pi and Q'
                 if randint(1,2) == 1:
                     #alpha and the permutation Q
-                    msg = 'Please send alpha and Graph Q\n'
+                    msg = 'Request for alpha and Q\n'
                 else:
                     #pi and the subgraph Q'
-                    msg = 'Please send pi and the subgraph\n'
+                    msg = 'Request pi and the subgraph Q prime\n'
                 num_rounds += 1
 
             #send the information to the server
