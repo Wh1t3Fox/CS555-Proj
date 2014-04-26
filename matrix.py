@@ -364,7 +364,20 @@ def qPrime(q, ggpiso, g2qiso, top, bottom):
     
     return qp
 
-
+    
+def genPi(phi, alpha, top, bottom):
+    phi = deepcopy(phi)
+    alphaPrime = deepcopy(alpha)
+    pi = {}
+    for x in xrange(top):
+        del alphaPrime[x]
+    for x in xrange(bottom):
+        del alphaPrime[len(alphaPrime)+top-1]
+    for key in phi.iterkeys():
+        phi[key] = phi[key] + top
+    for key in phi.iterkeys():
+        pi[key] = alphaPrime[phi[key]]
+    return pi
 """
 Takes G1 and pi as arguments, returns Q' for verifier to use
 """
